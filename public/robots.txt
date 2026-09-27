@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /formation/
+Disallow: /api/
+
+Sitemap: https://maisonaria-studio.com/sitemap.xml
