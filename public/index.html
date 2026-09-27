@@ -363,6 +363,16 @@ body.lock{overflow:hidden}
 .doc-nav a{font:600 14px var(--text);text-decoration:none;border:1px solid rgba(10,34,174,.25);border-radius:var(--r-pill);padding:7px 12px}
 mark.todo{background:#FCE7CF;color:#8A3B00;border-radius:4px;padding:0 4px;font-weight:600}
 
+/* Aria Academy */
+.academy-link{font-size:14px;font-weight:600;color:var(--blue)}
+.ac-steps{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;font-size:15px}
+#acform{grid-template-columns:1fr}
+#acform input,#acform textarea{background:#fff}
+#acform textarea{min-height:90px}
+#acform .btn{background:var(--blue);color:var(--cream)}
+#acform .note{background:#FCE7CF}
+.ov-how a{font-weight:600}
+
 /* Footer */
 footer{padding-block:40px;border-top:1px solid var(--line)}
 footer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px}
@@ -518,6 +528,32 @@ footer small{color:var(--cream-dim);font-size:14px}
       <button type="button" class="lb-nav next" id="lb-next" aria-label="Photo suivante">›</button>
     </div>
 
+    <!-- Demande d'accès Aria Academy -->
+    <div class="ov" id="acOv" hidden role="dialog" aria-modal="true" aria-labelledby="ac-title">
+      <div class="panel">
+        <button type="button" class="lb-x" id="ac-x" aria-label="Fermer">×</button>
+        <h3 id="ac-title">Aria Academy</h3>
+        <p class="ov-ev">Formation IA en ligne · à partir de 390 €</p>
+        <ol class="ac-steps">
+          <li><b>Envoie ta demande</b> avec ce formulaire.</li>
+          <li><b>Reçois le RIB</b> et le montant par e-mail.</li>
+          <li><b>Reçois ton code d'accès</b> dès réception du paiement.</li>
+          <li><b>Connecte-toi</b> à l'espace formation et avance à ton rythme.</li>
+        </ol>
+        <form id="acform" novalidate>
+          <label>Nom et prénom<input id="ac-name" required autocomplete="name"></label>
+          <label>E-mail<input id="ac-email" type="email" required autocomplete="email"></label>
+          <label>Téléphone (facultatif)<input id="ac-tel" type="tel" autocomplete="tel"></label>
+          <label>Ton activité et tes attentes (facultatif)<textarea id="ac-msg" placeholder="Ce que tu aimerais apprendre à faire avec l'IA…"></textarea></label>
+          <label class="check"><input type="checkbox" id="ac-cgv" required><span>J'ai lu et j'accepte les <a href="#cgv">conditions générales de vente</a>.</span></label>
+          <p class="small-print">Tes données servent uniquement à traiter ta demande. <a href="#confidentialite">Politique de confidentialité</a>.</p>
+          <button class="btn" type="submit">Envoyer ma demande <span class="arr">↗</span></button>
+          <p class="note" id="ac-note" hidden></p>
+        </form>
+        <p class="ov-how">Déjà inscrit·e ? <a href="/formation/">Accéder à l'espace formation</a></p>
+      </div>
+    </div>
+
     <!-- Commande -->
     <div class="ov" id="ov" hidden role="dialog" aria-modal="true" aria-labelledby="ov-title">
       <div class="panel">
@@ -596,6 +632,7 @@ footer small{color:var(--cream-dim);font-size:14px}
       <a href="#cookies">Cookies</a>
       <a href="#propriete-intellectuelle">Propriété intellectuelle</a>
       <a href="#cgv">CGV</a>
+      <a href="/formation/">Espace formation</a>
       <button type="button" data-cc-open>Gérer les cookies</button>
     </nav>
   </div>
@@ -668,6 +705,7 @@ footer small{color:var(--cream-dim);font-size:14px}
 <ul>
   <li><b>Demande de devis ou de contact :</b> nom, e-mail, téléphone et entreprise (facultatifs), prestation souhaitée, message.</li>
   <li><b>Commande de photos :</b> nom, e-mail, téléphone (facultatif), événement, références des photos choisies, message.</li>
+  <li><b>Formation en ligne (Aria Academy) :</b> nom, e-mail, code d'accès, date de fin d'accès, leçons terminées et date de dernière connexion.</li>
   <li><b>Relation client :</b> échanges par e-mail, devis, factures, informations nécessaires à la réalisation de la prestation.</li>
   <li><b>Photographies et vidéos :</b> images réalisées lors d'événements ou de prestations, sur lesquelles des personnes peuvent être identifiables.</li>
   <li><b>Données techniques :</b> l'hébergeur enregistre des journaux de connexion (adresse IP, date, pages consultées) pour assurer la sécurité du site.</li>
@@ -678,6 +716,7 @@ footer small{color:var(--cream-dim);font-size:14px}
   <thead><tr><th>Finalité</th><th>Base légale</th></tr></thead>
   <tbody>
     <tr><td>Répondre à vos demandes et établir un devis</td><td>Mesures précontractuelles prises à votre demande</td></tr>
+    <tr><td>Donner accès à la formation en ligne et suivre la progression</td><td>Exécution du contrat</td></tr>
     <tr><td>Réaliser les prestations, gérer les commandes de photos, facturer</td><td>Exécution du contrat et obligations légales comptables</td></tr>
     <tr><td>Présenter et proposer à la vente les photos d'événements dans les galeries</td><td>Intérêt légitime de Maison Aria, avec possibilité de retrait sur simple demande</td></tr>
     <tr><td>Présenter des réalisations dans le portfolio et sur les réseaux sociaux</td><td>Accord du client ou de la personne photographiée</td></tr>
@@ -690,6 +729,7 @@ footer small{color:var(--cream-dim);font-size:14px}
 <ul>
   <li>Demandes sans suite : 3 ans après le dernier contact.</li>
   <li>Données clients : pendant la relation commerciale, puis 3 ans.</li>
+  <li>Comptes de formation en ligne : pendant la durée de l'accès, puis 3 ans.</li>
   <li>Devis signés, factures et pièces comptables : 10 ans (article L123-22 du Code de commerce).</li>
   <li>Photos des galeries d'événements : <span data-l="galerieDuree"></span> après l'événement, sauf demande de retrait anticipé.</li>
   <li>Journaux de connexion : 12 mois au maximum.</li>
@@ -835,6 +875,7 @@ footer small{color:var(--cream-dim);font-size:14px}
 
 <!-- Formulaires déclarés pour Netlify Forms (invisibles) -->
 <form name="contact" data-netlify="true" hidden><input name="nom"><input name="email"><input name="telephone"><input name="entreprise"><input name="prestation"><textarea name="message"></textarea></form>
+<form name="formation" data-netlify="true" hidden><input name="nom"><input name="email"><input name="telephone"><textarea name="message"></textarea><input name="acceptation"></form>
 <form name="commande" data-netlify="true" hidden><input name="evenement"><input name="photos"><input name="nombre"><input name="total"><input name="nom"><input name="email"><input name="telephone"><textarea name="message"></textarea><input name="acceptation"></form>
 
 <script>
@@ -938,7 +979,7 @@ list.innerHTML = CATS.map(c=>`
         <ul class="prog">${s.prog.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
         <p class="res"><b>Résultat</b>${esc(s.res)}</p>
       </details>
-      <button class="ask" type="button" data-svc="${s.n}">Demander un devis <span>↗</span></button>
+      ${s.n===53?`<button class="ask" type="button" data-academy="1">Demander mon accès <span>↗</span></button><a class="academy-link" href="/formation/">Déjà inscrit·e ? Accéder à la formation</a>`:`<button class="ask" type="button" data-svc="${s.n}">Demander un devis <span>↗</span></button>`}
     </article>`).join("")}
   </div>
 </div>`).join("");
@@ -1274,7 +1315,30 @@ CATS.forEach(c=>{
   c.items.forEach(s=>{const o=document.createElement("option");o.value=s.n;o.textContent=`${s.code} — ${s.sub} (dès ${s.price})`;g.appendChild(o);});
   sel.appendChild(g);
 });
+const acOv=document.getElementById("acOv");
+function openAcademy(){ acOv.hidden=false; document.body.classList.add("lock"); document.getElementById("ac-name").focus(); }
+function closeAcademy(){ acOv.hidden=true; document.body.classList.remove("lock"); }
+document.getElementById("ac-x").addEventListener("click",closeAcademy);
+acOv.addEventListener("click",e=>{ if(e.target===acOv) closeAcademy(); if(e.target.closest('a[href^="#"]')) closeAcademy(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !acOv.hidden) closeAcademy(); });
+document.getElementById("acform").addEventListener("submit", async e=>{
+  e.preventDefault();
+  const v=id=>document.getElementById(id).value.trim(), note=document.getElementById("ac-note");
+  const name=v("ac-name"), email=v("ac-email");
+  if(!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ note.hidden=false; note.textContent="Merci d'indiquer ton nom et une adresse e-mail valide."; return; }
+  if(!document.getElementById("ac-cgv").checked){ note.hidden=false; note.textContent="Merci d'accepter les conditions générales de vente."; return; }
+  const fields={nom:name,email,telephone:v("ac-tel"),message:v("ac-msg"),acceptation:`CGV acceptées (${new Date().toLocaleString("fr-FR")})`};
+  const body=`Demande d'accès Aria Academy\n\nNom : ${name}\nE-mail : ${email}\nTéléphone : ${fields.telephone||"-"}\n\n${fields.message}\n\n${fields.acceptation}`;
+  const how=await sendForm("formation",fields,"Demande d'accès Aria Academy",body);
+  note.hidden=false;
+  note.innerHTML = how==="sent"
+    ? `<b>Merci ${esc(name)}, ta demande est bien envoyée !</b> Tu vas recevoir par e-mail le RIB et le montant. Ton code d'accès t'est envoyé dès réception du paiement.`
+    : `Ta messagerie s'ouvre avec la demande pré-remplie : clique sur Envoyer pour la transmettre. Si rien ne s'ouvre, écris à <b>${EMAIL}</b>.`;
+  if(how==="sent") e.target.reset();
+});
+
 list.addEventListener("click",e=>{
+  if(e.target.closest("[data-academy]")) return openAcademy();
   const b=e.target.closest(".ask"); if(!b) return;
   sel.value=b.dataset.svc;
   document.getElementById("contact").scrollIntoView({behavior:"smooth"});

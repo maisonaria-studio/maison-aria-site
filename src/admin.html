@@ -105,6 +105,44 @@ main{padding-block:32px 80px}
 .ph .tools button.del{color:var(--danger)}
 .ph .tools button.sure{background:var(--danger);color:#fff}
 .danger-zone{margin-top:32px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:center;color:var(--muted);font-size:14px}
+
+.tabs{display:flex;gap:4px;background:rgba(255,255,255,.1);border-radius:99px;padding:3px;margin-right:auto}
+.tabs button{border:0;background:transparent;color:var(--cream);font:600 14px var(--text);padding:7px 14px;border-radius:99px;opacity:1}
+.tabs button.on{background:var(--cream);color:var(--blue)}
+.tabs button:hover{text-decoration:none}
+.bar b{flex:0 0 auto}
+.sub{display:flex;gap:4px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:3px}
+.sub button{border:0;background:transparent;color:var(--blue);font:600 14px var(--text);padding:8px 14px;border-radius:99px}
+.sub button.on{background:var(--blue);color:var(--cream)}
+textarea{font:15px/1.5 var(--text);color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:11px 12px;width:100%;resize:vertical}
+textarea:focus{outline:none;border-color:var(--blue)}
+.tbl{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+td .code{font:600 13px ui-monospace,Menlo,monospace;background:var(--paper);padding:3px 7px;border-radius:6px;white-space:nowrap}
+td .mini{border:0;background:none;color:var(--blue);font:600 13px var(--text);padding:4px 6px;border-radius:6px}
+td .mini:hover{background:var(--paper)}
+td .mini.red{color:var(--danger)}
+td .mini.sure{background:var(--danger);color:#fff}
+.st{font:600 12px var(--text);padding:3px 8px;border-radius:99px}
+.st.on{background:#E3F4E8;color:#14532D}.st.off{background:#F3E1E1;color:var(--danger)}.st.exp{background:var(--orange-soft);color:#8A3B00}
+.pbar{width:90px;height:6px;border-radius:99px;background:#E6E4F2;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px}
+.pbar i{display:block;height:100%;background:var(--orange)}
+.modc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.modc .mh{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.modc .mh small{font:600 11px var(--text);letter-spacing:.1em;text-transform:uppercase;color:#C26A12;flex:none}
+.modc .mh input{flex:1 1 220px;font-weight:700}
+.lrow{display:flex;align-items:center;gap:8px;padding:8px 6px;border-top:1px solid var(--line);font-size:15px}
+.lrow span{flex:1}
+.lrow .st{flex:none}
+.iconb{border:0;background:var(--paper);color:var(--blue);border-radius:6px;padding:6px 9px;font:600 13px var(--text)}
+.iconb.red{color:var(--danger)}
+.iconb.sure{background:var(--danger);color:#fff}
+.rlist{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:6px}
+.rlist li{display:flex;gap:10px;align-items:center;background:var(--paper);border-radius:8px;padding:8px 10px;font-size:14px}
+.rlist li span{flex:1;word-break:break-all}
+@media (max-width:640px){.bar b,.bar a{display:none}.bar .wrap{gap:8px}}
 </style>
 </head>
 <body>
@@ -125,12 +163,14 @@ main{padding-block:32px 80px}
 <div id="app" hidden>
   <header class="bar"><div class="wrap">
     <img src="__MONO__" alt="">
-    <b>Espace galeries</b>
+    <b>Espace Maison Aria</b>
+    <nav class="tabs"><button type="button" data-tab="tabGal" class="on">Galeries</button><button type="button" data-tab="tabForm">Formation</button></nav>
     <a href="/#galeries" target="_blank" rel="noopener">Voir le site ↗</a>
     <button type="button" id="logout">Se déconnecter</button>
   </div></header>
 
   <main class="wrap">
+   <div id="tabGal">
     <!-- Vue liste -->
     <section id="vList">
       <div class="head">
@@ -196,6 +236,82 @@ main{padding-block:32px 80px}
         <button class="btn ghost" type="button" id="delEv" style="color:var(--danger)">Supprimer l'événement</button>
       </div>
     </section>
+   </div>
+
+   <!-- ===== Formation ===== -->
+   <div id="tabForm" hidden>
+    <div class="head">
+      <div><h1>Aria Academy</h1><p id="fStats"></p></div>
+      <div class="sub"><button type="button" data-sub="subL" class="on">Élèves</button><button type="button" data-sub="subC">Contenu du cours</button></div>
+    </div>
+
+    <section id="subL">
+      <div class="card" style="margin-bottom:20px">
+        <h3 style="font-size:18px;margin-bottom:12px">Donner un accès</h3>
+        <form class="fgrid" id="lnForm">
+          <label>Nom et prénom<input id="ln-name" required></label>
+          <label>E-mail<input id="ln-email" type="email" required></label>
+          <label>Accès jusqu'au<input id="ln-exp" type="date"></label>
+          <label>Note (facultatif)<input id="ln-note" placeholder="Payé le…"></label>
+          <div class="actions"><button class="btn" type="submit">Créer le code d'accès</button><span class="msg" id="lnMsg" hidden></span>
+          <small style="color:var(--muted)">Crée l'accès une fois le paiement reçu : un code unique est généré, avec un message prêt à envoyer.</small></div>
+        </form>
+      </div>
+      <div class="tbl"><table id="lnTable"></table></div>
+      <div class="card" id="mailCard" hidden style="margin-top:20px">
+        <h3 style="font-size:18px;margin-bottom:10px" id="mailTitle">Message à envoyer</h3>
+        <textarea id="mailText" rows="12"></textarea>
+        <div class="actions" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px">
+          <button class="btn" type="button" id="mailCopy">Copier le message</button>
+          <a class="btn ghost" id="mailOpen" href="#">Ouvrir dans ma messagerie</a>
+          <button class="btn ghost" type="button" id="mailClose">Fermer</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="subC" hidden>
+      <div class="card" style="margin-bottom:20px">
+        <div class="fgrid" style="grid-template-columns:1fr 1fr">
+          <label>Titre de la formation<input id="c-title"></label>
+          <label>Lien du groupe d'accompagnement (WhatsApp, Discord…)<input id="c-group" placeholder="https://…"></label>
+          <label style="grid-column:1/-1">Message d'accueil<textarea id="c-intro" rows="3"></textarea></label>
+        </div>
+      </div>
+      <div id="modList"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center">
+        <button class="btn ghost" type="button" id="addMod">+ Ajouter un module</button>
+        <button class="btn orange" type="button" id="saveCourse">Enregistrer le cours</button>
+        <span class="msg ok" id="cMsg" hidden>Cours enregistré</span>
+        <a class="btn ghost" href="/formation/" target="_blank" rel="noopener">Voir l'espace élève ↗</a>
+      </div>
+
+      <div class="card" id="lesEd" hidden style="margin-top:24px">
+        <h3 style="font-size:20px;margin-bottom:14px">Modifier la leçon</h3>
+        <div class="fgrid" style="grid-template-columns:1fr 1fr">
+          <label>Titre de la leçon<input id="le-title"></label>
+          <label>Lien de la vidéo (YouTube non répertoriée, Vimeo ou Loom)<input id="le-video" placeholder="https://youtu.be/…"></label>
+          <label style="grid-column:1/-1">Contenu de la leçon
+            <textarea id="le-body" rows="14"></textarea>
+            <small style="font-weight:400;color:var(--muted)">Mise en forme : « ## Titre », « - élément de liste », « 1. étape », « **gras** », « > encadré », « [texte](https://lien) ».</small>
+          </label>
+        </div>
+        <h4 style="margin:18px 0 8px;color:var(--blue)">Ressources</h4>
+        <ul class="rlist" id="le-res"></ul>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <label class="btn ghost" style="flex-direction:row">Ajouter un fichier (PDF…)<input type="file" id="le-file" hidden></label>
+          <input id="le-linkname" placeholder="Nom du lien" style="max-width:200px">
+          <input id="le-linkurl" placeholder="https://…" style="max-width:260px">
+          <button class="btn ghost" type="button" id="le-addlink">Ajouter le lien</button>
+          <span id="le-up" style="font-size:14px;color:var(--muted)"></span>
+        </div>
+        <div class="actions" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:20px">
+          <label class="switch"><input type="checkbox" id="le-pub"> Publiée (visible par les élèves)</label>
+          <button class="btn" type="button" id="le-save">Enregistrer la leçon</button>
+          <button class="btn ghost" type="button" id="le-close">Fermer</button>
+        </div>
+      </div>
+    </section>
+   </div>
   </main>
 </div>
 
@@ -344,6 +460,170 @@ const drop=$("drop");
 ["dragenter","dragover"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add("over");}));
 ["dragleave","drop"].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove("over");}));
 drop.addEventListener("drop",e=>uploadFiles(e.dataTransfer.files));
+
+// ================= Onglets =================
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  $("tabGal").hidden = b.dataset.tab!=="tabGal"; $("tabForm").hidden = b.dataset.tab!=="tabForm";
+  if (b.dataset.tab==="tabForm") loadFormation();
+  window.scrollTo(0,0);
+}));
+document.querySelectorAll(".sub button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".sub button").forEach(x=>x.classList.toggle("on",x===b));
+  $("subL").hidden = b.dataset.sub!=="subL"; $("subC").hidden = b.dataset.sub!=="subC";
+}));
+
+// ================= Formation : élèves =================
+let learners = [], course = null, editing = null;
+const plus12 = () => { const d=new Date(); d.setFullYear(d.getFullYear()+1); return d.toISOString().slice(0,10); };
+const pubCount = () => course ? course.modules.reduce((s,m)=>s+m.lessons.filter(l=>l.published).length,0) : 0;
+async function loadFormation(){
+  const [a,b] = await Promise.all([api({action:"listLearners"}), api({action:"getCourse"})]);
+  learners = a.learners; course = b.course;
+  if(!$("ln-exp").value) $("ln-exp").value = plus12();
+  renderLearners(); renderCourse();
+}
+function status(l){
+  if(!l.active) return '<span class="st off">Suspendu</span>';
+  if(l.expires && new Date(l.expires+"T23:59:59")<new Date()) return '<span class="st exp">Expiré</span>';
+  return '<span class="st on">Actif</span>';
+}
+function renderLearners(){
+  const total = pubCount();
+  const act = learners.filter(l=>l.active && !(l.expires && new Date(l.expires+"T23:59:59")<new Date())).length;
+  $("fStats").textContent = `${learners.length} élève${learners.length>1?"s":""} · ${act} accès actif${act>1?"s":""} · ${total} leçon${total>1?"s":""} publiée${total>1?"s":""}`;
+  if(!learners.length){ $("lnTable").innerHTML = `<tr><td style="padding:32px;text-align:center;color:var(--muted)">Aucun élève pour l'instant. Crée un accès dès qu'un paiement est reçu.</td></tr>`; return; }
+  $("lnTable").innerHTML = `<thead><tr><th>Élève</th><th>Code</th><th>Accès jusqu'au</th><th>Progression</th><th>Statut</th><th></th></tr></thead><tbody>` +
+    learners.slice().reverse().map(l=>{
+      const n=(l.done||[]).length, pct= total?Math.min(100,Math.round(n/total*100)):0;
+      return `<tr data-code="${esc(l.code)}"><td><b>${esc(l.name)||"—"}</b><br><span style="color:var(--muted)">${esc(l.email)}</span>${l.note?`<br><small style="color:var(--muted)">${esc(l.note)}</small>`:""}</td>
+      <td><span class="code">${esc(l.code)}</span></td>
+      <td><input type="date" value="${esc(l.expires||"")}" data-act="exp" style="width:150px;padding:6px 8px"></td>
+      <td><span class="pbar"><i style="width:${pct}%"></i></span>${pct} %<br><small style="color:var(--muted)">${l.lastSeen?"vu le "+new Date(l.lastSeen).toLocaleDateString("fr-FR"):"jamais connecté"}</small></td>
+      <td>${status(l)}</td>
+      <td style="white-space:nowrap"><button class="mini" data-act="mail">Message</button><button class="mini" data-act="toggle">${l.active?"Suspendre":"Réactiver"}</button><button class="mini red" data-act="del">Supprimer</button></td></tr>`;
+    }).join("") + "</tbody>";
+}
+$("lnForm").addEventListener("submit", async e=>{
+  e.preventDefault();
+  try {
+    const j = await api({action:"saveLearner",learner:{name:$("ln-name").value,email:$("ln-email").value,expires:$("ln-exp").value,note:$("ln-note").value}});
+    learners.push(j.learner); $("lnForm").reset(); $("ln-exp").value=plus12(); $("lnMsg").hidden=true;
+    renderLearners(); showMail(j.learner);
+  } catch(err){ $("lnMsg").hidden=false; $("lnMsg").textContent=err.message; }
+});
+function showMail(l){
+  const first = (l.name||"").split(" ")[0] || "";
+  const date = l.expires ? new Date(l.expires+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}) : "";
+  const txt = `Bonjour ${first},
+
+Merci pour ton inscription et ton paiement : ton accès à Aria Academy est prêt !
+
+Pour commencer, rends-toi sur :
+${location.origin}/formation
+
+Connecte-toi avec :
+• E-mail : ${l.email}
+• Code d'accès : ${l.code}
+${date?`\nTon accès est valable jusqu'au ${date}.\n`:""}
+Avance à ton rythme, module par module, et n'hésite pas à me contacter si tu as la moindre question.
+
+Belle formation !
+Leïssa · Maison Aria`;
+  $("mailTitle").textContent = `Message pour ${l.name||l.email}`;
+  $("mailText").value = txt;
+  $("mailOpen").href = `mailto:${encodeURIComponent(l.email)}?subject=${encodeURIComponent("Ton accès à Aria Academy")}&body=${encodeURIComponent(txt)}`;
+  $("mailCard").hidden=false; $("mailCard").scrollIntoView({behavior:"smooth",block:"center"});
+}
+$("mailCopy").addEventListener("click",async e=>{ try{await navigator.clipboard.writeText($("mailText").value); e.target.textContent="Message copié";}catch(_){ $("mailText").select(); e.target.textContent="Sélectionné : fais Cmd+C"; } setTimeout(()=>e.target.textContent="Copier le message",2000); });
+$("mailClose").addEventListener("click",()=>$("mailCard").hidden=true);
+$("lnTable").addEventListener("click", async e=>{
+  const b=e.target.closest("[data-act]"); if(!b||b.tagName==="INPUT") return;
+  const l=learners.find(x=>x.code===b.closest("tr").dataset.code); if(!l) return;
+  if(b.dataset.act==="mail") return showMail(l);
+  if(b.dataset.act==="toggle"){ const j=await api({action:"saveLearner",learner:{...l,active:!l.active}}); Object.assign(l,j.learner); return renderLearners(); }
+  if(b.dataset.act==="del"){
+    if(!b.classList.contains("sure")){ b.classList.add("sure"); b.textContent="Confirmer"; setTimeout(()=>{b.classList.remove("sure");b.textContent="Supprimer";},3000); return; }
+    await api({action:"deleteLearner",code:l.code}); learners=learners.filter(x=>x!==l); renderLearners();
+  }
+});
+$("lnTable").addEventListener("change", async e=>{
+  if(e.target.dataset.act!=="exp") return;
+  const l=learners.find(x=>x.code===e.target.closest("tr").dataset.code);
+  const j=await api({action:"saveLearner",learner:{...l,expires:e.target.value}}); Object.assign(l,j.learner); renderLearners();
+});
+
+// ================= Formation : contenu =================
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2,5);
+function renderCourse(){
+  $("c-title").value=course.title||""; $("c-intro").value=course.intro||""; $("c-group").value=course.groupUrl||"";
+  $("modList").innerHTML = course.modules.map((m,mi)=>`
+    <div class="modc" data-m="${mi}">
+      <div class="mh"><small>Module ${mi+1}</small><input value="${esc(m.title)}" data-act="mtitle">
+        <button class="iconb" data-act="mup" ${mi===0?"disabled":""} title="Monter">↑</button>
+        <button class="iconb" data-act="mdown" ${mi===course.modules.length-1?"disabled":""} title="Descendre">↓</button>
+        <button class="iconb red" data-act="mdel">Supprimer</button></div>
+      ${m.lessons.map((l,li)=>`<div class="lrow" data-l="${li}"><span>${li+1}. ${esc(l.title)}</span>${l.published?'<span class="st on">Publiée</span>':'<span class="st exp">Brouillon</span>'}
+        <button class="iconb" data-act="lup" ${li===0?"disabled":""}>↑</button><button class="iconb" data-act="ldown" ${li===m.lessons.length-1?"disabled":""}>↓</button>
+        <button class="iconb" data-act="ledit">Modifier</button><button class="iconb red" data-act="ldel">Supprimer</button></div>`).join("")}
+      <div class="lrow"><button class="iconb" data-act="ladd">+ Ajouter une leçon</button></div>
+    </div>`).join("");
+}
+function readCourseHead(){ course.title=$("c-title").value; course.intro=$("c-intro").value; course.groupUrl=$("c-group").value.trim(); }
+async function saveCourseNow(){ readCourseHead(); await api({action:"saveCourse",course}); $("cMsg").hidden=false; setTimeout(()=>$("cMsg").hidden=true,1800); renderLearners(); }
+$("saveCourse").addEventListener("click",()=>saveCourseNow().catch(err=>alertMsg(err)));
+function alertMsg(err){ $("cMsg").hidden=false; $("cMsg").className="msg"; $("cMsg").textContent="Erreur : "+err.message; setTimeout(()=>{$("cMsg").hidden=true;$("cMsg").className="msg ok";$("cMsg").textContent="Cours enregistré";},3500); }
+$("addMod").addEventListener("click",()=>{ course.modules.push({id:uid("m"),title:"Nouveau module",lessons:[]}); renderCourse(); });
+const swap=(a,i,j)=>{ [a[i],a[j]]=[a[j],a[i]]; };
+$("modList").addEventListener("input",e=>{ if(e.target.dataset.act==="mtitle") course.modules[+e.target.closest("[data-m]").dataset.m].title=e.target.value; });
+$("modList").addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]"); if(!b||b.tagName==="INPUT") return;
+  const mi=+b.closest("[data-m]").dataset.m, m=course.modules[mi], row=b.closest("[data-l]"), li=row?+row.dataset.l:-1;
+  const a=b.dataset.act;
+  if(a==="mup") swap(course.modules,mi,mi-1);
+  if(a==="mdown") swap(course.modules,mi,mi+1);
+  if(a==="mdel"||a==="ldel"){ if(!b.classList.contains("sure")){ b.classList.add("sure"); b.textContent="Confirmer"; setTimeout(()=>{b.classList.remove("sure");b.textContent="Supprimer";},3000); return; }
+    a==="mdel" ? course.modules.splice(mi,1) : m.lessons.splice(li,1); $("lesEd").hidden=true; }
+  if(a==="lup") swap(m.lessons,li,li-1);
+  if(a==="ldown") swap(m.lessons,li,li+1);
+  if(a==="ladd"){ m.lessons.push({id:uid("l"),title:"Nouvelle leçon",video:"",body:"",resources:[],published:false}); renderCourse(); return openLesson(mi,m.lessons.length-1); }
+  if(a==="ledit") return openLesson(mi,li);
+  renderCourse();
+});
+function openLesson(mi,li){
+  editing={mi,li}; const l=course.modules[mi].lessons[li];
+  $("le-title").value=l.title; $("le-video").value=l.video||""; $("le-body").value=l.body||""; $("le-pub").checked=!!l.published;
+  renderRes(); $("lesEd").hidden=false; $("lesEd").scrollIntoView({behavior:"smooth"});
+}
+const curLesson = () => editing && course.modules[editing.mi].lessons[editing.li];
+function renderRes(){
+  const l=curLesson(); $("le-res").innerHTML = (l.resources||[]).map((r,i)=>`<li><span>${r.url?"🔗":"📄"} ${esc(r.name)}${r.size?` · ${Math.round(r.size/1024)} Ko`:""}</span><button class="iconb red" data-ri="${i}">Retirer</button></li>`).join("") || `<li style="background:none;color:var(--muted);padding:0">Aucune ressource.</li>`;
+}
+$("le-res").addEventListener("click", async e=>{
+  const b=e.target.closest("[data-ri]"); if(!b) return; const l=curLesson(); const r=l.resources[+b.dataset.ri];
+  if(r.id) await api({action:"deleteFile",id:r.id}).catch(()=>{});
+  l.resources.splice(+b.dataset.ri,1); renderRes();
+});
+$("le-file").addEventListener("change", async e=>{
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  if(f.size>5_500_000){ $("le-up").textContent="Fichier trop lourd (5 Mo maximum)."; return; }
+  $("le-up").textContent="Envoi en cours…";
+  try{
+    const r=await fetch(`/api/admin?action=uploadFile&name=${encodeURIComponent(f.name)}`,{method:"POST",headers:{"Authorization":"Bearer "+PW,"Content-Type":f.type||"application/octet-stream"},body:f});
+    const j=await r.json(); if(!r.ok) throw new Error(j.error);
+    curLesson().resources.push(j.file); renderRes(); $("le-up").textContent="Fichier ajouté. Pense à enregistrer la leçon.";
+  }catch(err){ $("le-up").textContent="Échec : "+err.message; }
+});
+$("le-addlink").addEventListener("click",()=>{
+  const url=$("le-linkurl").value.trim(), name=$("le-linkname").value.trim()||url;
+  if(!/^https?:\/\//.test(url)){ $("le-up").textContent="Le lien doit commencer par https://"; return; }
+  curLesson().resources.push({name,url}); $("le-linkurl").value=""; $("le-linkname").value=""; renderRes();
+});
+$("le-save").addEventListener("click", async ()=>{
+  const l=curLesson(); Object.assign(l,{title:$("le-title").value||"Sans titre",video:$("le-video").value.trim(),body:$("le-body").value,published:$("le-pub").checked});
+  renderCourse(); await saveCourseNow().catch(alertMsg); $("lesEd").hidden=true;
+});
+$("le-close").addEventListener("click",()=>{ $("lesEd").hidden=true; });
 </script>
 </body>
 </html>
