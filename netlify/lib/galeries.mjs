@@ -32,7 +32,7 @@ export const DEFAULT_COURSE = {
   version: 2,
   title: "Aria Academy",
   intro: "Bienvenue dans Aria Academy ! Cette formation t'accompagne pas à pas pour identifier les tâches répétitives de ton entreprise, les transformer en processus clairs, puis les automatiser grâce à l'IA. Avance à ton rythme et marque chaque leçon comme terminée pour suivre ta progression.",
-  groupUrl: "",
+  groupUrl: "https://discord.gg/6TwQaem8M",
   modules: [
     { id: "a1", title: "L'IA au service de l'entreprise", lessons: [
       L("a1l1", "Ce que l'IA peut (et ne peut pas) faire pour ton entreprise", ["IA générative, assistants et automatisations : les différences", "Exemples concrets de gains de temps", "Les limites à connaître"]),
@@ -89,7 +89,8 @@ const untouchedV1 = c => !c.version && c.modules?.length === 8 && c.modules.ever
 export async function loadCourse() {
   const c = await meta().get("course", { type: "json" });
   if (!c) return structuredClone(DEFAULT_COURSE);
-  if (untouchedV1(c)) return { ...structuredClone(DEFAULT_COURSE), groupUrl: c.groupUrl || "" };
+  if (untouchedV1(c)) return { ...structuredClone(DEFAULT_COURSE), groupUrl: c.groupUrl || DEFAULT_COURSE.groupUrl };
+  if (!c.groupUrl) c.groupUrl = DEFAULT_COURSE.groupUrl;
   return c;
 }
 export async function saveCourse(c) { await meta().setJSON("course", c); }
