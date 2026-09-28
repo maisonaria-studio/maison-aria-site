@@ -54,7 +54,33 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.
 .nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:6px}
 .nav .cta{background:var(--cream);color:var(--blue);padding:10px 20px;border-radius:var(--r-pill);font-weight:600;opacity:1}
 .nav .cta:hover{text-decoration:none;background:#fff}
-@media (max-width:720px){.nav .hide-m{display:none}}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:transparent;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
+.burger span{display:block;width:20px;height:2px;border-radius:2px;background:var(--cream);transition:transform .2s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mnav{display:flex;flex-direction:column;padding:8px 16px 20px;border-top:1px solid var(--line);background:var(--blue)}
+.mnav a{padding:14px 4px;border-bottom:1px solid var(--line);text-decoration:none;font:600 19px var(--display)}
+.mnav .mcta{margin-top:14px;border:0;background:var(--cream);color:var(--blue);text-align:center;border-radius:99px;padding:14px}
+@media (min-width:721px){.mnav{display:none!important}}
+@media (max-width:720px){
+  .nav a:not(.cta){display:none}
+  .burger{display:inline-flex}
+  .nav{gap:10px}
+  .top .wrap{height:64px}
+  .filters{position:static}
+  html{scroll-padding-top:76px}
+  .univ .cats a{flex-wrap:wrap;gap:2px 12px}
+  .univ .cats .n{white-space:nowrap}
+  .hero .intro{font-size:20px}
+  .cc{left:8px;right:8px;width:auto;bottom:calc(8px + env(safe-area-inset-bottom,0px));padding:16px;gap:10px}
+  .cc h2{font-size:17px}
+  .cc p{font-size:13px}
+  .cc-btns{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .cc-btns button{font-size:13px;padding:10px 4px}
+  .selbar-in span{font-size:16px}
+  .plan{padding:26px 20px}
+}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:500 18px/1 var(--text);color:var(--cream);background:var(--blue-btn);border:0;border-radius:var(--r-pill);padding:20px 32px;text-decoration:none;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.18);transition:background .2s, transform .2s}
@@ -389,6 +415,13 @@ footer small{color:var(--cream-dim);font-size:14px}
 .legal{flex-basis:100%;display:flex;flex-wrap:wrap;gap:6px 18px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--cream-dim)}
 .legal a,.legal button{color:var(--cream-dim);text-decoration:none;font:inherit;background:none;border:0;padding:0;cursor:pointer}
 .legal a:hover,.legal button:hover{color:var(--cream);text-decoration:underline}
+@media (max-width:720px){
+  .cc{left:8px;right:8px;width:auto;bottom:calc(8px + env(safe-area-inset-bottom,0px));padding:14px 16px;gap:8px;border-radius:12px}
+  .cc h2{font-size:16px}
+  .cc p{font-size:12.5px;line-height:1.45}
+  .cc-btns{grid-template-columns:1fr 1fr 1fr!important;gap:6px}
+  .cc-btns button{font-size:12.5px;padding:10px 4px}
+}
 </style>
 
 </head>
@@ -402,7 +435,17 @@ footer small{color:var(--cream-dim);font-size:14px}
       <a class="hide-m" href="#portfolio">Portfolio</a>
       <a href="#galeries">Galeries</a>
       <a class="cta" href="#contact">Devis</a>
+      <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="mnav" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
     </nav>
+  </div>
+  <div class="mnav" id="mnav" hidden>
+    <a href="#univers">Les deux univers</a>
+    <a href="#formules">Formules mensuelles</a>
+    <a href="#services">Toutes les prestations</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#galeries">Vos photos</a>
+    <a href="/formation/">Espace formation</a>
+    <a class="mcta" href="#contact">Demander un devis</a>
   </div>
 </header>
 
@@ -1387,6 +1430,15 @@ document.getElementById("copy").addEventListener("click",e=>{
   if (q.get("prestation")) { sel.value = q.get("prestation"); setTimeout(go, 300); }
   else if (q.get("formule")) { sel.value = "plan-" + q.get("formule").toUpperCase(); setTimeout(go, 300); }
   if (q.has("acces")) setTimeout(openAcademy, 300);
+})();
+
+// Menu mobile
+(()=>{
+  const b=document.getElementById("burger"), m=document.getElementById("mnav");
+  const set=o=>{ m.hidden=!o; b.setAttribute("aria-expanded",o); b.setAttribute("aria-label",o?"Fermer le menu":"Ouvrir le menu"); };
+  b.addEventListener("click",()=>set(m.hidden));
+  m.addEventListener("click",e=>{ if(e.target.closest("a")) set(false); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!m.hidden) set(false); });
 })();
 </script>
 
