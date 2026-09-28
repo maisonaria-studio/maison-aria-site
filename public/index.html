@@ -422,6 +422,10 @@ footer small{color:var(--cream-dim);font-size:14px}
   .cc-btns{grid-template-columns:1fr 1fr 1fr!important;gap:6px}
   .cc-btns button{font-size:12.5px;padding:10px 4px}
 }
+/* Garde un espace libre en bas d'écran (badge Netlify, barre du navigateur) */
+.cc{bottom:calc(72px + env(safe-area-inset-bottom,0px))!important;z-index:2147483000}
+.selbar{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+.pgrid{padding-bottom:170px}
 </style>
 
 </head>
