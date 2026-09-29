@@ -147,6 +147,7 @@ section{padding-block:clamp(64px,9vw,112px)}
 .chips::-webkit-scrollbar{display:none}
 .chip{border:1px solid var(--line);padding:9px 14px;font-size:14px}
 .chip:hover{border-color:var(--cream)}
+.chips.off .chip[aria-pressed="true"]{background:transparent;border-color:var(--line);color:var(--cream);font-weight:500}
 .chip[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:var(--blue-deep);font-weight:600}
 .search{flex:1 1 220px;min-width:0;display:flex}
 .search input{width:100%;font:400 16px var(--text);color:var(--cream);background:transparent;border:1px solid var(--line);border-radius:var(--r-pill);padding:11px 18px}
@@ -426,6 +427,37 @@ footer small{color:var(--cream-dim);font-size:14px}
 .cc{bottom:calc(72px + env(safe-area-inset-bottom,0px))!important;z-index:2147483000}
 .selbar{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 .pgrid{padding-bottom:170px}
+
+/* ===== Animations ===== */
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--orange);transform-origin:0 50%;transform:scaleX(0);z-index:60;pointer-events:none}
+.top{transition:box-shadow .3s}
+.top.scrolled{box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.js .rv{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1) var(--d,0s),transform .9s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.js .rv.in{opacity:1;transform:none}
+.js .rv-l{transform:translateX(-40px)} .js .rv-r{transform:translateX(40px)}
+.js .rv-l.in,.js .rv-r.in{transform:none}
+.h-xl{position:relative}
+.js .h-xl.rv::after{content:"";display:block;width:64px;height:4px;border-radius:4px;background:var(--orange);margin-top:14px;transform:scaleX(0);transform-origin:0 50%;transition:transform .9s cubic-bezier(.2,.7,.2,1) .35s}
+.js .h-xl.rv.in::after{transform:scaleX(1)}
+.marquee{overflow:hidden;border-bottom:1px solid var(--line);background:var(--blue-deep);padding:16px 0;user-select:none}
+.marquee .track{display:flex;width:max-content;animation:marq 40s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+.marquee span{font:700 clamp(18px,2vw,24px)/1 var(--display);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;padding-right:28px;color:var(--cream)}
+.marquee span::after{content:"✦";color:var(--orange);margin-left:28px}
+@keyframes marq{to{transform:translateX(-50%)}}
+.card,.plan,.univ,.step{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.card:hover,.plan:hover,.step:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.price{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.card:hover .price{transform:rotate(-3deg) scale(1.06)}
+.btn .arr,.card .ask span{display:inline-block;transition:transform .25s}
+.btn:hover .arr,.card .ask:hover span{transform:translate(3px,-3px)}
+.cat.swap .cat-head{animation:fadeup .5s cubic-bezier(.2,.7,.2,1) both}
+.cat.swap .card{animation:fadeup .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*70ms + 80ms)}
+@keyframes fadeup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.chip{transition:background .25s,border-color .25s,color .25s,transform .2s}
+.chip:active,.seg button:active{transform:scale(.96)}
+.seg button{transition:background .3s,color .3s}
+@media (prefers-reduced-motion: reduce){.js .rv,.js .rv-l,.js .rv-r{opacity:1;transform:none}.marquee .track{animation:none}.progress{display:none}.card:hover,.plan:hover,.step:hover{transform:none}}
 </style>
 
 </head>
@@ -453,6 +485,7 @@ footer small{color:var(--cream-dim);font-size:14px}
   </div>
 </header>
 
+<div class="progress" id="progress" aria-hidden="true"></div>
 <main id="accueil">
   <div class="hero">
     <div class="wrap">
@@ -473,6 +506,8 @@ footer small{color:var(--cream-dim);font-size:14px}
       </div>
     </div>
   </div>
+
+  <div class="marquee" aria-hidden="true"><div class="track"><span>Communication</span><span>Réseaux sociaux</span><span>Identité visuelle</span><span>Photographie</span><span>Vidéo</span><span>Drone</span><span>Événements</span><span>Intelligence artificielle</span><span>Formations IA</span><span>Modélisation 3D</span><span>Communication</span><span>Réseaux sociaux</span><span>Identité visuelle</span><span>Photographie</span><span>Vidéo</span><span>Drone</span><span>Événements</span><span>Intelligence artificielle</span><span>Formations IA</span><span>Modélisation 3D</span></div></div>
 
   <section id="univers">
     <div class="wrap">
@@ -514,8 +549,7 @@ footer small{color:var(--cream-dim);font-size:14px}
       <div class="filters">
         <div class="row">
           <div class="seg" role="group" aria-label="Univers">
-            <button type="button" data-u="all" aria-pressed="true">Tout</button>
-            <button type="button" data-u="studio" aria-pressed="false">Studio</button>
+            <button type="button" data-u="studio" aria-pressed="true">Studio</button>
             <button type="button" data-u="visuals" aria-pressed="false">Visuals</button>
           </div>
           <label class="search"><span class="sr">Rechercher une prestation</span><input id="q" type="search" placeholder="Rechercher : logo, drone, réel, formation…" autocomplete="off"></label>
@@ -1023,8 +1057,8 @@ list.innerHTML = CATS.map(c=>`
     <h3>${esc(c.label)}</h3>
     <div class="meta"><span class="univ-tag">${c.u==="studio"?"Studio":"Visuals"}</span>${c.items.length} prestation${c.items.length>1?"s":""}</div>
   </div>
-  <div class="grid">${c.items.map(s=>`
-    <article class="card" data-hay="${esc(s.hay)}">
+  <div class="grid">${c.items.map((s,i)=>`
+    <article class="card" style="--i:${i}" data-hay="${esc(s.hay)}">
       <div class="top-row">
         <div><div class="num">N° ${String(s.n).padStart(2,"0")}</div><h4>${esc(s.code)}</h4><div class="sub">${esc(s.sub)}</div></div>
         <div class="price"><small>dès</small><b>${esc(s.price)}</b></div>
@@ -1044,40 +1078,46 @@ list.innerHTML = CATS.map(c=>`
 // Chips
 const chips = document.getElementById("chips");
 function renderChips(){
-  chips.innerHTML = `<button class="chip" type="button" data-c="all" aria-pressed="${state.cat==="all"}">Toutes les expertises</button>` +
-    CATS.filter(c=>state.u==="all"||c.u===state.u).map(c=>`<button class="chip" type="button" data-c="${c.id}" aria-pressed="${state.cat===c.id}">${esc(c.label)}</button>`).join("");
+  chips.innerHTML = CATS.filter(c=>c.u===state.u).map(c=>`<button class="chip" type="button" data-c="${c.id}" aria-pressed="${state.cat===c.id}">${esc(c.label)}</button>`).join("");
 }
 
 // Filtres
-const state = {u:"all",cat:"all",q:""};
+// Une expertise à la fois ; la recherche, elle, parcourt toutes les prestations
+const firstCat = u => CATS.find(c=>c.u===u).id;
+const state = {u:"studio",cat:firstCat("studio"),q:""};
+function pick(id){ const c=CATS.find(x=>x.id===id); if(!c) return false; state.u=c.u; state.cat=c.id; state.q=""; document.getElementById("q").value=""; return true; }
 function apply(){
   const terms = norm(state.q).split(/\s+/).filter(Boolean);
+  const searching = terms.length>0;
   let shown = 0;
   document.querySelectorAll(".cat").forEach(sec=>{
-    const okSec = (state.u==="all"||sec.dataset.u===state.u) && (state.cat==="all"||sec.id===state.cat);
+    const okSec = searching || sec.id===state.cat;
     let n = 0;
     sec.querySelectorAll(".card").forEach(card=>{
       const ok = okSec && terms.every(t=>card.dataset.hay.includes(t));
       card.hidden = !ok; if(ok) n++;
     });
-    sec.hidden = n===0; shown += n;
+    const was = sec.hidden; sec.hidden = n===0; shown += n;
+    if (was && !sec.hidden) { sec.classList.remove("swap"); void sec.offsetWidth; sec.classList.add("swap"); }
   });
   document.getElementById("empty").hidden = shown>0;
-  document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.u===state.u));
+  document.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-pressed", String(!searching && b.dataset.u===state.u)));
+  chips.classList.toggle("off", searching);
   renderChips();
 }
 document.querySelector(".seg").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
-  state.u=b.dataset.u; state.cat="all"; apply();
+  state.u=b.dataset.u; state.cat=firstCat(state.u); state.q=""; document.getElementById("q").value=""; apply();
 });
 chips.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
-  state.cat=b.dataset.c; apply();
+  pick(b.dataset.c); apply();
   document.getElementById("services").scrollIntoView({behavior:"smooth"});
 });
 document.getElementById("q").addEventListener("input",e=>{state.q=e.target.value; apply();});
-document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",()=>{state.u=a.dataset.go;state.cat="all";apply();}));
-document.querySelectorAll("[data-cat]").forEach(a=>a.addEventListener("click",()=>{state.u="all";state.cat="all";state.q="";document.getElementById("q").value="";apply();}));
+document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",()=>{pick(firstCat(a.dataset.go));apply();}));
+document.querySelectorAll("[data-cat]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();pick(a.dataset.cat);apply();document.getElementById("services").scrollIntoView({behavior:"smooth"});}));
+if (location.hash.startsWith("#cat-")) pick(location.hash.slice(1));
 apply();
 
 // Formules
@@ -1443,6 +1483,35 @@ document.getElementById("copy").addEventListener("click",e=>{
   b.addEventListener("click",()=>set(m.hidden));
   m.addEventListener("click",e=>{ if(e.target.closest("a")) set(false); });
   document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!m.hidden) set(false); });
+})();
+
+// ===== Animations au défilement =====
+(function(){
+  document.documentElement.classList.add("js");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mark = (sel, cls="rv", step=0) => document.querySelectorAll(sel).forEach((el,i)=>{
+    el.classList.add("rv"); if(cls!=="rv") el.classList.add(cls);
+    if(step) el.style.setProperty("--d", (i%4)*step+"s");
+  });
+  mark("section .h-xl");
+  mark("section .lead"); mark(".plans-note");
+  mark(".hero .intro"); mark(".hero .ctas .btn",undefined,.12); mark(".hero .facts");
+  document.querySelectorAll(".univ").forEach((el,i)=>{el.classList.add("rv", i?"rv-r":"rv-l");});
+  mark(".plan",undefined,.14); mark(".step",undefined,.12); mark(".gal-steps li",undefined,.1);
+  mark(".filters"); mark("#contact form"); mark("#portfolio .wrap > *:not(.h-xl)",undefined,.1);
+  const els = document.querySelectorAll(".rv");
+  if (reduce || !("IntersectionObserver" in window)) { els.forEach(e=>e.classList.add("in")); return; }
+  const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{rootMargin:"0px 0px -8% 0px",threshold:.08});
+  els.forEach(e=>io.observe(e));
+  // Nouvelles cartes (galeries, formules) ajoutées plus tard
+  window.maReveal = root => root.querySelectorAll(".rv:not(.in)").forEach(e=>io.observe(e));
+  // Barre de progression + ombre de l'en-tête
+  const bar = document.getElementById("progress"), top = document.querySelector(".top");
+  let ticking = false;
+  addEventListener("scroll",()=>{ if(ticking) return; ticking=true; requestAnimationFrame(()=>{
+    const h = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (h>0 ? scrollY/h : 0) + ")";
+    top.classList.toggle("scrolled", scrollY>10); ticking=false; }); },{passive:true});
 })();
 </script>
 
