@@ -70,6 +70,7 @@ const PATCHES = [
   [1, c => { replaceModule(c, MODULE_1); c.intro = DEFAULT_COURSE.intro; }],
   [2, c => setVideos(c, Object.fromEntries(MODULE_1.lessons.map(l => [l.id, l.video])))],
   [3, c => [MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9].forEach(m => replaceModule(c, m))],
+  [4, c => setVideos(c, Object.fromEntries([MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9].flatMap(m => m.lessons.map(l => [l.id, l.video]))))],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
