@@ -1,5 +1,13 @@
 import { getStore } from "@netlify/blobs";
 import { MODULE_1 } from "./academy-m1.mjs";
+import { MODULE_2 } from "./academy-m2.mjs";
+import { MODULE_3 } from "./academy-m3.mjs";
+import { MODULE_4 } from "./academy-m4.mjs";
+import { MODULE_5 } from "./academy-m5.mjs";
+import { MODULE_6 } from "./academy-m6.mjs";
+import { MODULE_7 } from "./academy-m7.mjs";
+import { MODULE_8 } from "./academy-m8.mjs";
+import { MODULE_9 } from "./academy-m9.mjs";
 
 export const meta = () => getStore({ name: "galeries", consistency: "strong" });
 export const photos = () => getStore({ name: "photos", consistency: "strong" });
@@ -28,7 +36,6 @@ export const files = () => getStore({ name: "formation-fichiers", consistency: "
 
 // Programme : automatiser et « processiser » les tâches de l'entreprise grâce à l'IA.
 // Chaque leçon est créée en brouillon avec un plan, à compléter et publier depuis l'espace dédié.
-const L = (id, title, plan) => ({ id, title, video: "", body: "## Au programme\n" + plan.map(x => "- " + x).join("\n") + "\n\n> Leçon en cours de rédaction.", resources: [], published: false });
 export const DEFAULT_COURSE = {
   version: 2,
   title: "Aria Academy",
@@ -36,47 +43,7 @@ export const DEFAULT_COURSE = {
   groupUrl: "https://discord.gg/6TwQaem8M",
   modules: [
     MODULE_1,
-    { id: "a2", title: "Cartographier ses tâches et ses processus", lessons: [
-      L("a2l1", "Faire l'inventaire des tâches répétitives", ["Lister les tâches d'une semaine type", "Mesurer le temps passé", "Repérer les tâches à faible valeur"]),
-      L("a2l2", "Choisir quoi automatiser en premier", ["La matrice impact / effort", "Les tâches idéales pour débuter", "Éviter les fausses bonnes idées"]),
-      L("a2l3", "Dessiner un processus de A à Z", ["Déclencheur, étapes, décisions, résultat", "Qui fait quoi, avec quel outil", "Exercice : cartographier un processus de ton entreprise"])
-    ]},
-    { id: "a3", title: "Processiser : documenter pour mieux déléguer", lessons: [
-      L("a3l1", "Rédiger une procédure claire", ["Structure d'une fiche procédure", "Checklists et modèles réutilisables", "Rédiger une procédure avec l'aide de l'IA"]),
-      L("a3l2", "Créer sa bibliothèque de modèles", ["E-mails types, devis, relances, comptes rendus", "Où et comment les ranger", "Garder une bibliothèque à jour"]),
-      L("a3l3", "Standardiser ses données", ["Nommer et ranger ses fichiers", "Structurer un tableur exploitable", "Préparer ses données pour l'automatisation"])
-    ]},
-    { id: "a4", title: "Les assistants IA au quotidien", lessons: [
-      L("a4l1", "Bien choisir son assistant IA", ["ChatGPT, Claude, Copilot, Gemini : lequel pour quoi", "Versions gratuites et payantes", "Paramétrer son assistant"]),
-      L("a4l2", "La méthode pour écrire des prompts efficaces", ["Contexte, rôle, tâche, format, exemples", "Améliorer une réponse étape par étape", "Erreurs fréquentes"]),
-      L("a4l3", "Ta bibliothèque de prompts métier", ["Prompts pour les e-mails, devis, comptes rendus, synthèses", "Transformer un prompt en modèle réutilisable", "Exercice : 5 prompts pour ton activité"])
-    ]},
-    { id: "a5", title: "Créer ses propres assistants IA", lessons: [
-      L("a5l1", "Assistants personnalisés : le principe", ["GPTs, Projets et assistants sur mesure", "Instructions et base de connaissances", "Cas d'usage en entreprise"]),
-      L("a5l2", "Construire un assistant pas à pas", ["Rédiger les instructions", "Ajouter ses documents et procédures", "Tester et améliorer"]),
-      L("a5l3", "Partager un assistant avec son équipe", ["Droits d'accès et bonnes pratiques", "Maintenir l'assistant à jour", "Mesurer son utilisation"])
-    ]},
-    { id: "a6", title: "Automatiser sans coder", lessons: [
-      L("a6l1", "Les bases de l'automatisation", ["Déclencheur, actions, conditions", "Zapier, Make, n8n : comparatif", "Coûts et limites des offres gratuites"]),
-      L("a6l2", "Ta première automatisation", ["Exemple : formulaire → tableur → e-mail de confirmation", "Tester et corriger", "Surveiller les erreurs"]),
-      L("a6l3", "Automatisations avancées", ["Conditions et filtres", "Boucles et traitement de listes", "Organiser et nommer ses scénarios"])
-    ]},
-    { id: "a7", title: "Connecter l'IA à ses outils", lessons: [
-      L("a7l1", "Ajouter l'IA dans une automatisation", ["Appeler une IA dans Zapier, Make ou n8n", "Rédiger, résumer, classer, extraire automatiquement", "Garder un humain dans la boucle"]),
-      L("a7l2", "E-mails, agenda et CRM", ["Trier et pré-rédiger les réponses aux e-mails", "Relances clients automatiques", "Mettre à jour son CRM ou son tableur"]),
-      L("a7l3", "Documents, devis et facturation", ["Générer des documents à partir de modèles", "Extraire les données de factures et justificatifs", "Suivre les paiements"])
-    ]},
-    { id: "a8", title: "Déployer, mesurer et faire adopter", lessons: [
-      L("a8l1", "Tester avant de généraliser", ["Phase pilote et jeux de test", "Plan B en cas de panne", "Documenter l'automatisation"]),
-      L("a8l2", "Mesurer les gains", ["Temps gagné et erreurs évitées", "Tableau de suivi simple", "Calculer le retour sur investissement"]),
-      L("a8l3", "Embarquer son équipe", ["Présenter les nouveaux processus", "Former et accompagner", "Faire vivre et améliorer les processus"])
-    ]},
-    { id: "a9", title: "Cas pratiques", lessons: [
-      L("a9l1", "Cas 1 : de la demande de devis à la relance", ["Formulaire, devis généré, envoi et relance automatiques"]),
-      L("a9l2", "Cas 2 : la boîte mail sous contrôle", ["Tri, étiquettes, brouillons de réponse et résumé quotidien"]),
-      L("a9l3", "Cas 3 : le reporting hebdomadaire automatique", ["Collecte des chiffres, synthèse par l'IA et envoi à l'équipe"]),
-      L("a9l4", "Ton projet : automatiser un processus de ton entreprise", ["Choisir le processus", "Le documenter", "L'automatiser et mesurer le résultat", "Le partager sur le Discord pour avoir des retours"])
-    ]}
+    MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9
   ]
 };
 
@@ -102,6 +69,7 @@ function setVideos(c, map) {
 const PATCHES = [
   [1, c => { replaceModule(c, MODULE_1); c.intro = DEFAULT_COURSE.intro; }],
   [2, c => setVideos(c, Object.fromEntries(MODULE_1.lessons.map(l => [l.id, l.video])))],
+  [3, c => [MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9].forEach(m => replaceModule(c, m))],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
