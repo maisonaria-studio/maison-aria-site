@@ -1,4 +1,5 @@
 import { getStore } from "@netlify/blobs";
+import { MODULE_1 } from "./academy-m1.mjs";
 
 export const meta = () => getStore({ name: "galeries", consistency: "strong" });
 export const photos = () => getStore({ name: "photos", consistency: "strong" });
@@ -31,14 +32,10 @@ const L = (id, title, plan) => ({ id, title, video: "", body: "## Au programme\n
 export const DEFAULT_COURSE = {
   version: 2,
   title: "Aria Academy",
-  intro: "Bienvenue dans Aria Academy ! Cette formation t'accompagne pas à pas pour identifier les tâches répétitives de ton entreprise, les transformer en processus clairs, puis les automatiser grâce à l'IA. Avance à ton rythme et marque chaque leçon comme terminée pour suivre ta progression.",
+  intro: "Bienvenue dans Aria Academy ! Ici, tu vas identifier les tâches répétitives de ton entreprise, les transformer en processus clairs, puis les automatiser grâce à l'IA, sans coder. Objectif : au moins un processus qui tourne tout seul à la fin de la formation. Une leçon, une action : fais l'exercice de chaque leçon avant de passer à la suivante, et marque-la comme terminée pour suivre ta progression.",
   groupUrl: "https://discord.gg/6TwQaem8M",
   modules: [
-    { id: "a1", title: "L'IA au service de l'entreprise", lessons: [
-      L("a1l1", "Ce que l'IA peut (et ne peut pas) faire pour ton entreprise", ["IA générative, assistants et automatisations : les différences", "Exemples concrets de gains de temps", "Les limites à connaître"]),
-      L("a1l2", "Utiliser l'IA en toute sécurité", ["Données sensibles et confidentialité", "RGPD : les bons réflexes", "Vérifier et relire ce que produit l'IA"]),
-      L("a1l3", "Ta feuille de route", ["Fixer ton objectif de temps gagné", "Choisir les premiers processus à traiter", "Organiser ta progression dans la formation"])
-    ]},
+    MODULE_1,
     { id: "a2", title: "Cartographier ses tâches et ses processus", lessons: [
       L("a2l1", "Faire l'inventaire des tâches répétitives", ["Lister les tâches d'une semaine type", "Mesurer le temps passé", "Repérer les tâches à faible valeur"]),
       L("a2l2", "Choisir quoi automatiser en premier", ["La matrice impact / effort", "Les tâches idéales pour débuter", "Éviter les fausses bonnes idées"]),
@@ -86,11 +83,29 @@ export const DEFAULT_COURSE = {
 // Ancien programme jamais modifié : remplacé automatiquement par le nouveau
 const untouchedV1 = c => !c.version && c.modules?.length === 8 && c.modules.every(m => /^m\d$/.test(m.id) && m.lessons.length === 1 && m.lessons[0].title === "Introduction" && m.lessons[0].body === "Contenu à rédiger." && !m.lessons[0].published);
 
+// Contenus rédigés livrés par mise à jour du site : appliqués une seule fois au programme enregistré.
+// Ensuite, tout se modifie normalement depuis l'espace dédié (le numéro contentPatch est conservé à l'enregistrement).
+const CONTENT_PATCH = 1;
+function applyPatches(c) {
+  if ((c.contentPatch || 0) >= CONTENT_PATCH) return false;
+  const i = c.modules.findIndex(m => m.id === "a1");
+  const m1 = structuredClone(MODULE_1);
+  if (i >= 0) {
+    // On garde une vidéo déjà renseignée depuis l'espace dédié
+    for (const l of m1.lessons) { const old = c.modules[i].lessons.find(x => x.id === l.id); if (old?.video) l.video = old.video; }
+    c.modules[i] = m1;
+  } else c.modules.unshift(m1);
+  c.intro = DEFAULT_COURSE.intro;
+  c.contentPatch = CONTENT_PATCH;
+  return true;
+}
+
 export async function loadCourse() {
-  const c = await meta().get("course", { type: "json" });
-  if (!c) return structuredClone(DEFAULT_COURSE);
-  if (untouchedV1(c)) return { ...structuredClone(DEFAULT_COURSE), groupUrl: c.groupUrl || DEFAULT_COURSE.groupUrl };
+  let c = await meta().get("course", { type: "json" });
+  if (!c) c = structuredClone(DEFAULT_COURSE);
+  else if (untouchedV1(c)) c = { ...structuredClone(DEFAULT_COURSE), groupUrl: c.groupUrl || DEFAULT_COURSE.groupUrl };
   if (!c.groupUrl) c.groupUrl = DEFAULT_COURSE.groupUrl;
+  if (applyPatches(c)) await saveCourse(c);
   return c;
 }
 export async function saveCourse(c) { await meta().setJSON("course", c); }
