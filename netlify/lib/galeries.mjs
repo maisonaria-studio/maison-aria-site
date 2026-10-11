@@ -88,6 +88,7 @@ const PATCHES = [
   [10, c => swapVideos(c, { a7l1: ["https://youtu.be/b1FD4oTv9HE", "https://youtu.be/_yWMeqUl22k"], a7l2: ["https://youtu.be/dgKcq1pExi4", "https://youtu.be/eT5ekplaQW4"], a7l3: ["https://youtu.be/a6Dq1m9OUdo", "https://youtu.be/c_dfp3kZxr4"], a8l1: ["https://youtu.be/byD26146J10", "https://youtu.be/G_0zLn6RrpM"], a8l2: ["https://youtu.be/eW6-XJp9ncQ", "https://youtu.be/wiKYHnOP79Q"], a8l3: ["https://youtu.be/_SkhChSv8Y0", "https://youtu.be/eCv84qUtyB4"] })],
   [11, c => swapVideos(c, { a9l1: ["https://youtu.be/cKaFazcdjyo", "https://youtu.be/3Dm61Zm_hf4"], a9l2: ["https://youtu.be/YesYTXZeMOM", "https://youtu.be/zCW2Kqj-TsE"], a9l3: ["https://youtu.be/075jIuPdHz4", "https://youtu.be/UHnRRN_ONbw"] })],
   [12, c => swapVideos(c, { a9l4: ["https://youtu.be/2wxMj7djo3g", "https://youtu.be/v6ydN0bNA7Q"] })],
+  [13, c => hostVideos(c, ["a1l0", "a1l1", "a1l2", "a1l3"])],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
