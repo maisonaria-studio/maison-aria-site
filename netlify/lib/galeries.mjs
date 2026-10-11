@@ -70,6 +70,11 @@ function setVideos(c, map) {
 function swapVideos(c, map) {
   for (const m of c.modules) for (const l of m.lessons) if (map[l.id] && (!l.video || l.video === map[l.id][0])) l.video = map[l.id][1];
 }
+// Vidéos hébergées sur le site (1440p) : remplace les liens YouTube des leçons listées
+function hostVideos(c, ids) {
+  for (const m of c.modules) for (const l of m.lessons)
+    if (ids.includes(l.id) && (!l.video || /youtu\.?be/.test(l.video))) l.video = `/formation/videos/${l.id}.mp4`;
+}
 const PATCHES = [
   [1, c => { replaceModule(c, MODULE_1); c.intro = DEFAULT_COURSE.intro; }],
   [2, c => setVideos(c, Object.fromEntries(MODULE_1.lessons.map(l => [l.id, l.video])))],

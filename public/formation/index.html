@@ -75,6 +75,7 @@ main.lesson{padding:clamp(24px,4vw,56px) clamp(16px,5vw,72px) 80px;max-width:900
 main.lesson h1{font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.05;margin:6px 0 24px}
 .video{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:12px;overflow:hidden;background:var(--blue-deep);margin-bottom:28px}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video video{position:absolute;inset:0;width:100%;height:100%;background:#0A22AE;object-fit:contain}
 .body{font-size:17px;line-height:1.7;max-width:68ch}
 .body h2{font-size:24px;margin:28px 0 8px}
 .body h3{font-size:19px;margin:22px 0 6px}
@@ -188,7 +189,7 @@ function embed(url){
   if ((m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/))) return `https://www.youtube-nocookie.com/embed/${m[1]}?rel=0`;
   if ((m = url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/(\w+))?/))) return `https://player.vimeo.com/video/${m[1]}${m[2]?`?h=${m[2]}`:""}`;
   if ((m = url.match(/loom\.com\/share\/(\w+)/))) return `https://www.loom.com/embed/${m[1]}`;
-  if (/^https:\/\//.test(url)) return url;
+  if (/^https:\/\//.test(url) || /^\/formation\/videos\//.test(url)) return url;
   return "";
 }
 function md(src){
@@ -218,13 +219,17 @@ function showLesson(id){
     L.innerHTML = `<div class="welcome"><span class="crumb" style="color:var(--orange)">Espace formation</span><h1>${esc(DATA.course.title)}</h1><p>${esc(DATA.course.intro)}</p></div>
       ${all.length ? `<div class="foot" style="border:0"><span>${DATA.course.modules.length} module${DATA.course.modules.length>1?"s":""} · ${all.length} leçon${all.length>1?"s":""}</span>
       <button class="btn orange" type="button" data-go="${(next||all[0]).id}">${next && next!==all[0] ? "Reprendre ma formation →" : "Commencer la formation →"}</button></div>`
-      : `<p class="empty">Les premières leçons arrivent très bientôt.</p>`}`;
+      : `<p class="empty">Les premières leçons arrivent très bientôt.</p>`}
+      ${(()=>{ const seen=new Set(), res=all.flatMap(l=>(l.resources||[]).filter(r=>r.url&&!seen.has(r.url)&&seen.add(r.url)).map(r=>({...r,lesson:l})));
+        return res.length?`<div class="res"><h3>Toutes les fiches pratiques (${res.length})</h3>${res.map(r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener" style="display:block;padding:6px 0;font-weight:600">📄 ${esc(r.name)} <span style="font-weight:400;opacity:.7">· leçon ${r.lesson.mi+1}.${esc(r.lesson.id.split("l")[1]||"")}</span></a>`).join("")}</div>`:""; })()}`;
     renderToc(); return;
   }
   const i = all.findIndex(l=>l.id===id), l = all[i]; if(!l) return showLesson(null);
   const src = embed(l.video), isDone = done().has(l.id);
   L.innerHTML = `<span class="crumb">Module ${l.mi+1} · ${esc(l.module)}</span><h1>${esc(l.title)}</h1>
-    ${src?`<div class="video"><iframe src="${esc(src)}" title="Vidéo : ${esc(l.title)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`:""}
+    ${src?(/\.mp4(\?|$)/.test(src)
+      ? `<div class="video"><video src="${esc(src)}" poster="${esc(src.replace(/\.mp4(\?.*)?$/,".jpg"))}" controls playsinline preload="metadata" controlslist="nodownload" disablepictureinpicture oncontextmenu="return false" title="Vidéo : ${esc(l.title)}"></video></div>`
+      : `<div class="video"><iframe src="${esc(src)}" title="Vidéo : ${esc(l.title)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`):""}
     <div class="body">${md(l.body)}</div>
     ${l.resources?.length?`<div class="res"><h3>Ressources</h3>${l.resources.map(r=>r.url
         ? `<a href="${esc(r.url)}" target="_blank" rel="noopener" style="display:block;padding:6px 0;font-weight:600">🔗 ${esc(r.name)}</a>`
