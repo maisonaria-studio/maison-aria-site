@@ -66,11 +66,16 @@ function replaceModule(c, mod) {
 function setVideos(c, map) {
   for (const m of c.modules) for (const l of m.lessons) if (map[l.id] && !l.video) l.video = map[l.id];
 }
+// Remplace une vidéo muette par sa version avec voix off (seulement si le lien n'a pas été modifié à la main)
+function swapVideos(c, map) {
+  for (const m of c.modules) for (const l of m.lessons) if (map[l.id] && (!l.video || l.video === map[l.id][0])) l.video = map[l.id][1];
+}
 const PATCHES = [
   [1, c => { replaceModule(c, MODULE_1); c.intro = DEFAULT_COURSE.intro; }],
   [2, c => setVideos(c, Object.fromEntries(MODULE_1.lessons.map(l => [l.id, l.video])))],
   [3, c => [MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9].forEach(m => replaceModule(c, m))],
   [4, c => setVideos(c, Object.fromEntries([MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9].flatMap(m => m.lessons.map(l => [l.id, l.video]))))],
+  [5, c => swapVideos(c, { a1l0: ["https://youtu.be/a4Hi01-mDd8", "https://youtu.be/pSF4MpnOnvA"] })],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
