@@ -76,6 +76,7 @@ const PATCHES = [
   [3, c => [MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9].forEach(m => replaceModule(c, m))],
   [4, c => setVideos(c, Object.fromEntries([MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9].flatMap(m => m.lessons.map(l => [l.id, l.video]))))],
   [5, c => swapVideos(c, { a1l0: ["https://youtu.be/a4Hi01-mDd8", "https://youtu.be/pSF4MpnOnvA"] })],
+  [6, c => swapVideos(c, { a1l0: ["https://youtu.be/pSF4MpnOnvA", "https://youtu.be/jPlo5x-L4Zw"] })],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
