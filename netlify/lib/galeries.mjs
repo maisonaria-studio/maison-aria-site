@@ -78,6 +78,7 @@ const PATCHES = [
   [5, c => swapVideos(c, { a1l0: ["https://youtu.be/a4Hi01-mDd8", "https://youtu.be/pSF4MpnOnvA"] })],
   [6, c => swapVideos(c, { a1l0: ["https://youtu.be/pSF4MpnOnvA", "https://youtu.be/jPlo5x-L4Zw"] })],
   [7, c => swapVideos(c, { a1l1: ["https://youtu.be/3FuFhbJkNSg", "https://youtu.be/lCH0m43GXkc"], a1l2: ["https://youtu.be/mnRO-VcgFz4", "https://youtu.be/g_wzvHAqoqw"], a1l3: ["https://youtu.be/rH_jsPnpUsI", "https://youtu.be/pJT3cSiGCp8"], a2l1: ["https://youtu.be/N7bdHqCMJEY", "https://youtu.be/JuAb7ypkE5s"], a2l2: ["https://youtu.be/Nzn0WPWroBI", "https://youtu.be/shhtvrdp9MM"], a2l3: ["https://youtu.be/ZvJt-r9TtZk", "https://youtu.be/XLIQJILNin8"], a3l1: ["https://youtu.be/k5wwzxNDGWk", "https://youtu.be/j7lxZ2hlico"] })],
+  [8, c => swapVideos(c, { a3l2: ["https://youtu.be/Hm2v1bAXkRA", "https://youtu.be/C-TGFKYpWOE"], a3l3: ["https://youtu.be/1C1uaExyEcE", "https://youtu.be/kroH_xDbxxA"], a4l1: ["https://youtu.be/raKDvJmMaOA", "https://youtu.be/NhFGi7jKgAs"], a4l2: ["https://youtu.be/gumvg04NpdY", "https://youtu.be/Je0ZnDJCy3s"], a4l3: ["https://youtu.be/Ad23bcGZxIA", "https://youtu.be/HSkETcCZIj4"], a5l1: ["https://youtu.be/7qucy56SLuo", "https://youtu.be/e58UwF9PUDM"] })],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
