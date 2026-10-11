@@ -77,6 +77,7 @@ const PATCHES = [
   [4, c => setVideos(c, Object.fromEntries([MODULE_2, MODULE_3, MODULE_4, MODULE_5, MODULE_6, MODULE_7, MODULE_8, MODULE_9].flatMap(m => m.lessons.map(l => [l.id, l.video]))))],
   [5, c => swapVideos(c, { a1l0: ["https://youtu.be/a4Hi01-mDd8", "https://youtu.be/pSF4MpnOnvA"] })],
   [6, c => swapVideos(c, { a1l0: ["https://youtu.be/pSF4MpnOnvA", "https://youtu.be/jPlo5x-L4Zw"] })],
+  [7, c => swapVideos(c, { a1l1: ["https://youtu.be/3FuFhbJkNSg", "https://youtu.be/lCH0m43GXkc"], a1l2: ["https://youtu.be/mnRO-VcgFz4", "https://youtu.be/g_wzvHAqoqw"], a1l3: ["https://youtu.be/rH_jsPnpUsI", "https://youtu.be/pJT3cSiGCp8"], a2l1: ["https://youtu.be/N7bdHqCMJEY", "https://youtu.be/JuAb7ypkE5s"], a2l2: ["https://youtu.be/Nzn0WPWroBI", "https://youtu.be/shhtvrdp9MM"], a2l3: ["https://youtu.be/ZvJt-r9TtZk", "https://youtu.be/XLIQJILNin8"], a3l1: ["https://youtu.be/k5wwzxNDGWk", "https://youtu.be/j7lxZ2hlico"] })],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
