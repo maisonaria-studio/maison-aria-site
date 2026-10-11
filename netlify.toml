@@ -6,3 +6,23 @@
   for = "/admin/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+
+[[redirects]]
+  from = "/prestations/formation-ia-en-ligne/"
+  to = "/aria-academy/"
+  status = 301
+
+[[redirects]]
+  from = "/formation-ia"
+  to = "/aria-academy/"
+  status = 301
+
+[[headers]]
+  for = "/formation/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

@@ -1,0 +1,134 @@
+[
+ {
+  "title": "Comprendre l'automatisation et l'IA",
+  "lessons": [
+   {
+    "title": "Bienvenue : comment tirer le maximum de cette formation"
+   },
+   {
+    "title": "Automatisation, IA, agents : ce qui fait vraiment gagner du temps"
+   },
+   {
+    "title": "Automatiser en toute sécurité : RGPD, AI Act et bons réflexes"
+   },
+   {
+    "title": "Ta feuille de route : ton objectif et ton premier processus"
+   }
+  ]
+ },
+ {
+  "title": "Cartographier ses tâches et ses processus",
+  "lessons": [
+   {
+    "title": "L'audit de ta semaine : où part vraiment ton temps"
+   },
+   {
+    "title": "Choisir quoi automatiser en premier : la matrice impact / effort"
+   },
+   {
+    "title": "Dessiner un processus de A à Z"
+   }
+  ]
+ },
+ {
+  "title": "Processiser : documenter pour mieux déléguer",
+  "lessons": [
+   {
+    "title": "Rédiger une procédure claire (et la faire écrire par l'IA)"
+   },
+   {
+    "title": "Créer sa bibliothèque de modèles"
+   },
+   {
+    "title": "Standardiser ses données pour les rendre automatisables"
+   }
+  ]
+ },
+ {
+  "title": "Les assistants IA au quotidien",
+  "lessons": [
+   {
+    "title": "Bien choisir son assistant IA"
+   },
+   {
+    "title": "La méthode pour écrire des prompts efficaces"
+   },
+   {
+    "title": "Ta bibliothèque de prompts métier"
+   }
+  ]
+ },
+ {
+  "title": "Créer ses propres assistants IA",
+  "lessons": [
+   {
+    "title": "Assistants personnalisés : le principe"
+   },
+   {
+    "title": "Construire un assistant pas à pas"
+   },
+   {
+    "title": "Partager un assistant avec son équipe"
+   }
+  ]
+ },
+ {
+  "title": "Automatiser sans coder",
+  "lessons": [
+   {
+    "title": "Les bases de l'automatisation"
+   },
+   {
+    "title": "Ta première automatisation"
+   },
+   {
+    "title": "Automatisations avancées"
+   }
+  ]
+ },
+ {
+  "title": "Connecter l'IA à ses outils",
+  "lessons": [
+   {
+    "title": "Ajouter l'IA dans une automatisation"
+   },
+   {
+    "title": "E-mails, agenda et CRM"
+   },
+   {
+    "title": "Documents, devis et facturation"
+   }
+  ]
+ },
+ {
+  "title": "Déployer, mesurer et faire adopter",
+  "lessons": [
+   {
+    "title": "Tester avant de généraliser"
+   },
+   {
+    "title": "Mesurer les gains"
+   },
+   {
+    "title": "Embarquer son équipe"
+   }
+  ]
+ },
+ {
+  "title": "Cas pratiques",
+  "lessons": [
+   {
+    "title": "Cas 1 : de la demande de devis à la relance"
+   },
+   {
+    "title": "Cas 2 : la boîte mail sous contrôle"
+   },
+   {
+    "title": "Cas 3 : le reporting hebdomadaire automatique"
+   },
+   {
+    "title": "Ton projet : automatiser un processus de ton entreprise"
+   }
+  ]
+ }
+]
