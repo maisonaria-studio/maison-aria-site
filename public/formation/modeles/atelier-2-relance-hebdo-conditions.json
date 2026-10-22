@@ -1,0 +1,179 @@
+{
+ "name": "Relance hebdo · Tri des demandes de devis",
+ "nodes": [
+  {
+   "id": "e2d5c40d-5359-4570-9af6-f0f6fe99e519",
+   "name": "Chaque lundi à 9 h",
+   "type": "n8n-nodes-base.scheduleTrigger",
+   "typeVersion": 1.2,
+   "position": [
+    0,
+    0
+   ],
+   "parameters": {
+    "rule": {
+     "interval": [
+      {
+       "field": "weeks",
+       "triggerAtDay": [
+        1
+       ],
+       "triggerAtHour": 9
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "e2dcdcee-e408-4599-815b-f9be663a963e",
+   "name": "Demandes non traitées",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1,
+   "position": [
+    240,
+    0
+   ],
+   "parameters": {
+    "resource": "row",
+    "operation": "get",
+    "dataTableId": {
+     "__rl": true,
+     "mode": "list",
+     "value": ""
+    },
+    "filters": {
+     "conditions": [
+      {
+       "keyName": "statut",
+       "condition": "eq",
+       "keyValue": "Nouveau"
+      }
+     ]
+    },
+    "returnAll": true,
+    "options": {}
+   }
+  },
+  {
+   "id": "6430dc73-5507-4774-a22d-0b24b8cd96c7",
+   "name": "Budget ≥ 1 000 € ?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2.2,
+   "position": [
+    480,
+    0
+   ],
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "leftValue": "",
+      "typeValidation": "loose",
+      "version": 2
+     },
+     "conditions": [
+      {
+       "id": "4fc7fbdb-32e5-4b74-9231-88a62aa724be",
+       "leftValue": "={{ $json.budget }}",
+       "rightValue": 1000,
+       "operator": {
+        "type": "number",
+        "operation": "gte"
+       }
+      }
+     ],
+     "combinator": "and"
+    },
+    "looseTypeValidation": true,
+    "options": {}
+   }
+  },
+  {
+   "id": "d321c67f-542c-4c40-89ac-14515129fcc1",
+   "name": "Alerte demande prioritaire",
+   "type": "n8n-nodes-base.emailSend",
+   "typeVersion": 2.1,
+   "position": [
+    760,
+    -120
+   ],
+   "webhookId": "6bdf4346-d6c7-45cd-8534-f534f4811a88",
+   "parameters": {
+    "fromEmail": "ton-adresse@exemple.fr",
+    "toEmail": "ton-adresse@exemple.fr",
+    "subject": "=🔥 Demande prioritaire : {{ $json.entreprise }} ({{ $json.budget }} €)",
+    "emailFormat": "text",
+    "text": "=Demande reçue le {{ $json.date_reception }} et pas encore traitée.\n\nClient : {{ $json.prenom }} {{ $json.nom }} ({{ $json.entreprise }})\nBesoin : {{ $json.besoin }}\nBudget : {{ $json.budget }} €\nE-mail : {{ $json.email }}\n\nÀ rappeler aujourd'hui.",
+    "options": {
+     "appendAttribution": false
+    }
+   }
+  },
+  {
+   "id": "e19b6c65-47d3-449a-886d-4b5d5f14f50a",
+   "name": "Relance du client",
+   "type": "n8n-nodes-base.emailSend",
+   "typeVersion": 2.1,
+   "position": [
+    760,
+    120
+   ],
+   "webhookId": "b8ccce86-9042-4fbd-8a5b-5128742345f6",
+   "parameters": {
+    "fromEmail": "ton-adresse@exemple.fr",
+    "toEmail": "={{ $json.email }}",
+    "subject": "=Votre demande de devis : {{ $json.besoin }}",
+    "emailFormat": "text",
+    "text": "=Bonjour {{ $json.prenom }},\n\nMerci pour votre demande concernant « {{ $json.besoin }} ». Nous préparons votre devis et revenons vers vous très vite.\nSi vous souhaitez en parler de vive voix, répondez simplement à cet e-mail avec vos disponibilités.\n\nBelle journée,\nL'équipe",
+    "options": {
+     "appendAttribution": false
+    }
+   }
+  }
+ ],
+ "connections": {
+  "Chaque lundi à 9 h": {
+   "main": [
+    [
+     {
+      "node": "Demandes non traitées",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Demandes non traitées": {
+   "main": [
+    [
+     {
+      "node": "Budget ≥ 1 000 € ?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Budget ≥ 1 000 € ?": {
+   "main": [
+    [
+     {
+      "node": "Alerte demande prioritaire",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Relance du client",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1"
+ }
+}

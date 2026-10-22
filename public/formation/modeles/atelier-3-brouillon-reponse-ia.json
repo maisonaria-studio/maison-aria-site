@@ -1,0 +1,177 @@
+{
+ "name": "Demande de devis · Brouillon de réponse par l'IA",
+ "nodes": [
+  {
+   "parameters": {
+    "formTitle": "Demande de devis",
+    "formDescription": "Décrivez votre projet, nous revenons vers vous sous 48 h.",
+    "formFields": {
+     "values": [
+      {
+       "fieldLabel": "Prénom",
+       "requiredField": true
+      },
+      {
+       "fieldLabel": "Nom",
+       "requiredField": true
+      },
+      {
+       "fieldLabel": "E-mail",
+       "fieldType": "email",
+       "requiredField": true
+      },
+      {
+       "fieldLabel": "Entreprise"
+      },
+      {
+       "fieldLabel": "Besoin",
+       "fieldType": "dropdown",
+       "fieldOptions": {
+        "values": [
+         {
+          "option": "Réseaux sociaux"
+         },
+         {
+          "option": "Photo"
+         },
+         {
+          "option": "Vidéo"
+         },
+         {
+          "option": "Identité visuelle"
+         },
+         {
+          "option": "IA & automatisation"
+         }
+        ]
+       },
+       "requiredField": true
+      },
+      {
+       "fieldLabel": "Budget (€)",
+       "fieldType": "number"
+      },
+      {
+       "fieldLabel": "Message",
+       "fieldType": "textarea"
+      }
+     ]
+    },
+    "options": {
+     "appendAttribution": false
+    }
+   },
+   "id": "c9abf9b2-aa1f-4e57-95e3-d95fffed35d1",
+   "name": "Formulaire de devis",
+   "type": "n8n-nodes-base.formTrigger",
+   "typeVersion": 2.3,
+   "position": [
+    0,
+    0
+   ],
+   "webhookId": "9cce233f-7912-403d-82f7-4122b85e561a"
+  },
+  {
+   "id": "e6884750-785a-4ebb-a87f-8cc2b48c4704",
+   "name": "Rédiger la réponse avec l'IA",
+   "type": "@n8n/n8n-nodes-langchain.chainLlm",
+   "typeVersion": 1.7,
+   "position": [
+    300,
+    0
+   ],
+   "parameters": {
+    "promptType": "define",
+    "text": "=Voici une nouvelle demande de devis reçue via notre formulaire.\n\nPrénom : {{ $json['Prénom'] }}\nNom : {{ $json.Nom }}\nEntreprise : {{ $json.Entreprise }}\nBesoin : {{ $json.Besoin }}\nBudget : {{ $json['Budget (€)'] }}\nMessage : {{ $json.Message }}\n\nRédige un brouillon de réponse.",
+    "messages": {
+     "messageValues": [
+      {
+       "message": "Tu es l'assistante commerciale d'une agence de communication du Golfe de Saint-Tropez. Tu rédiges des réponses chaleureuses, professionnelles et courtes (150 mots maximum), en vouvoyant le client. Tu remercies, tu reformules le besoin, tu poses 3 questions utiles pour établir le devis et tu proposes un appel de 15 minutes. Tu n'inventes jamais de prix."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "be0ed36c-9b13-4bfa-b60c-3aeed433ee24",
+   "name": "OpenAI Chat Model",
+   "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+   "typeVersion": 1.3,
+   "position": [
+    300,
+    220
+   ],
+   "parameters": {
+    "model": {
+     "__rl": true,
+     "mode": "list",
+     "value": "gpt-5-mini",
+     "cachedResultName": "gpt-5-mini"
+    },
+    "responsesApiEnabled": false,
+    "options": {
+     "temperature": 0.4
+    }
+   }
+  },
+  {
+   "id": "edccbcc0-17e8-47bb-92b3-6f72362140e3",
+   "name": "Envoyer le brouillon à l'équipe",
+   "type": "n8n-nodes-base.emailSend",
+   "typeVersion": 2.1,
+   "position": [
+    660,
+    0
+   ],
+   "webhookId": "664a8088-16e9-4f33-bf44-0e9457c25837",
+   "parameters": {
+    "fromEmail": "ton-adresse@exemple.fr",
+    "toEmail": "ton-adresse@exemple.fr",
+    "subject": "=✍️ Brouillon IA à relire : {{ $('Formulaire de devis').item.json.Entreprise }}",
+    "emailFormat": "text",
+    "text": "=À relire avant d'envoyer à {{ $('Formulaire de devis').item.json['E-mail'] }} :\n\n{{ $json.text }}",
+    "options": {
+     "appendAttribution": false
+    }
+   }
+  }
+ ],
+ "connections": {
+  "Formulaire de devis": {
+   "main": [
+    [
+     {
+      "node": "Rédiger la réponse avec l'IA",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "OpenAI Chat Model": {
+   "ai_languageModel": [
+    [
+     {
+      "node": "Rédiger la réponse avec l'IA",
+      "type": "ai_languageModel",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Rédiger la réponse avec l'IA": {
+   "main": [
+    [
+     {
+      "node": "Envoyer le brouillon à l'équipe",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1"
+ }
+}

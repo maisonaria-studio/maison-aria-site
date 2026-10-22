@@ -8,6 +8,7 @@ import { MODULE_6 } from "./academy-m6.mjs";
 import { MODULE_7 } from "./academy-m7.mjs";
 import { MODULE_8 } from "./academy-m8.mjs";
 import { MODULE_9 } from "./academy-m9.mjs";
+import { EXTRA_LESSONS } from "./academy-ext.mjs";
 
 export const meta = () => getStore({ name: "galeries", consistency: "strong" });
 export const photos = () => getStore({ name: "photos", consistency: "strong" });
@@ -75,6 +76,24 @@ function hostVideos(c, ids) {
   for (const m of c.modules) for (const l of m.lessons)
     if (ids.includes(l.id) && (!l.video || /youtu\.?be/.test(l.video))) l.video = `/formation/videos/${l.id}.mp4`;
 }
+// Mistral a renommé Le Chat en Vibe (mai 2026)
+const VIBE = [["Le Chat de Mistral", "Vibe (ex-Le Chat) de Mistral"], ["**Le Chat (Mistral AI)**", "**Vibe, ex-Le Chat (Mistral AI)**"], ["Europe → Le Chat)", "Europe → Vibe de Mistral)"], ["**Le Chat (Mistral)**", "**Vibe (Mistral)**"]];
+// Nouvelles leçons insérées dans des modules existants (sans renuméroter les modules ni toucher aux leçons existantes)
+function insertLessons(c, extra) {
+  for (const { module, after, lessons } of extra) {
+    const m = c.modules.find(x => x.id === module); if (!m) continue;
+    let i = m.lessons.findIndex(l => l.id === after);
+    if (i < 0) i = m.lessons.length - 1;
+    for (const l of lessons) {
+      if (m.lessons.some(x => x.id === l.id)) continue;
+      m.lessons.splice(++i, 0, structuredClone(l));
+    }
+  }
+}
+// Remplace un texte dans les leçons (seulement s'il est encore présent tel quel)
+function replaceText(c, pairs) {
+  for (const m of c.modules) for (const l of m.lessons) for (const [a, b] of pairs) if (l.body?.includes(a)) l.body = l.body.split(a).join(b);
+}
 const PATCHES = [
   [1, c => { replaceModule(c, MODULE_1); c.intro = DEFAULT_COURSE.intro; }],
   [2, c => setVideos(c, Object.fromEntries(MODULE_1.lessons.map(l => [l.id, l.video])))],
@@ -88,6 +107,7 @@ const PATCHES = [
   [10, c => swapVideos(c, { a7l1: ["https://youtu.be/b1FD4oTv9HE", "https://youtu.be/_yWMeqUl22k"], a7l2: ["https://youtu.be/dgKcq1pExi4", "https://youtu.be/eT5ekplaQW4"], a7l3: ["https://youtu.be/a6Dq1m9OUdo", "https://youtu.be/c_dfp3kZxr4"], a8l1: ["https://youtu.be/byD26146J10", "https://youtu.be/G_0zLn6RrpM"], a8l2: ["https://youtu.be/eW6-XJp9ncQ", "https://youtu.be/wiKYHnOP79Q"], a8l3: ["https://youtu.be/_SkhChSv8Y0", "https://youtu.be/eCv84qUtyB4"] })],
   [11, c => swapVideos(c, { a9l1: ["https://youtu.be/cKaFazcdjyo", "https://youtu.be/3Dm61Zm_hf4"], a9l2: ["https://youtu.be/YesYTXZeMOM", "https://youtu.be/zCW2Kqj-TsE"], a9l3: ["https://youtu.be/075jIuPdHz4", "https://youtu.be/UHnRRN_ONbw"] })],
   [12, c => swapVideos(c, { a9l4: ["https://youtu.be/2wxMj7djo3g", "https://youtu.be/v6ydN0bNA7Q"] })],
+  [13, c => { insertLessons(c, EXTRA_LESSONS); replaceText(c, VIBE); }],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));

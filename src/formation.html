@@ -83,6 +83,15 @@ main.lesson h1{font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.05;m
 .body p{margin:0 0 14px}
 .body ul,.body ol{padding-left:1.3em;margin:0 0 14px}
 .body code{background:#fff;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:.92em}
+.body figure{margin:22px 0 26px;width:min(900px,calc(100vw - 40px))}
+.body figure a{display:block;cursor:zoom-in}
+.body figure img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff;box-shadow:0 8px 24px rgba(10,34,174,.08)}
+.body figcaption{font-size:14px;line-height:1.45;color:var(--muted);margin-top:8px}
+.body figcaption b{color:var(--orange)}
+.body .tbl{overflow-x:auto;margin:0 0 18px;width:min(900px,calc(100vw - 40px))}
+.body table{border-collapse:collapse;font-size:15px;line-height:1.45;background:#fff;border-radius:10px;overflow:hidden;min-width:560px;width:100%}
+.body th{background:var(--blue,#0A22AE);color:#fff;text-align:left;padding:9px 12px;font-size:13px;letter-spacing:.02em}
+.body td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
 .body blockquote{margin:0 0 14px;padding:12px 16px;border-left:4px solid var(--orange);background:#fff;border-radius:0 8px 8px 0}
 .res{margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px}
 .res h3{font-size:17px;margin-bottom:10px}
@@ -98,6 +107,7 @@ main.lesson h1{font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.05;m
   nav.toc.open{display:block}
   .menu-btn{display:inline-block}
 }
+@media (max-width:560px){header.bar .in>a{display:none}header.bar #cTitle{font-size:16px}header.bar .in{gap:10px}}
 </style>
 </head>
 <body>
@@ -167,7 +177,7 @@ $("logout").addEventListener("click",()=>{ try{localStorage.removeItem("ma-learn
 $("menuBtn").addEventListener("click",()=>$("toc").classList.toggle("open"));
 if (AUTH) enter().catch(()=>{ $("login").hidden=false; });
 
-const lessons = () => DATA.course.modules.flatMap((m,mi)=>m.lessons.map(l=>({...l, module:m.title, mi})));
+const lessons = () => DATA.course.modules.flatMap((m,mi)=>m.lessons.map((l,li)=>({...l, module:m.title, mi, li})));
 const done = () => new Set(DATA.learner.done);
 
 function renderToc(){
@@ -195,20 +205,28 @@ function embed(url){
 }
 function md(src){
   const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*(?!\s)(.+?)\*/g,"$1<em>$2</em>").replace(/`(.+?)`/g,"<code>$1</code>")
-    .replace(/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
-  const out=[]; let list=null, para=[];
+    .replace(/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\[(.+?)\]\((\/formation\/[^\s)]+)\)/g,(_,t,u)=>`<a href="${u}" target="_blank" rel="noopener"${/\.(json|pdf)$/.test(u)?" download":""}>${t}</a>`);
+  const out=[]; let list=null, para=[], tbl=null;
+  const flushT=()=>{ if(tbl){ const rows=tbl.filter(r=>!/^\s*\|?\s*:?-{2,}/.test(r)).map(r=>r.replace(/^\s*\||\|\s*$/g,"").split("|").map(c=>c.trim()));
+    const [h,...b]=rows; out.push(`<div class="tbl"><table><thead><tr>${h.map(c=>`<th>${inline(c)}</th>`).join("")}</tr></thead><tbody>${b.map(r=>`<tr>${r.map(c=>`<td>${inline(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`); tbl=null; } };
   const flushP=()=>{ if(para.length){ out.push(`<p>${para.map(inline).join("<br>")}</p>`); para=[]; } };
   const flushL=()=>{ if(list){ out.push(`<${list.t}>${list.items.map(i=>`<li>${inline(i)}</li>`).join("")}</${list.t}>`); list=null; } };
   for (const raw of String(src||"").split("\n")) {
     const line = raw.trimEnd(); let m;
+    if (/^\s*\|.*\|\s*$/.test(line)) { flushP(); flushL(); (tbl=tbl||[]).push(line); continue; }
+    flushT();
     if (!line.trim()) { flushP(); flushL(); continue; }
+    if ((m=line.match(/^!\[(.*?)\]\((\/formation\/[^\s)]+|https:\/\/[^\s)]+)\)\s*$/))) { flushP(); flushL();
+      const num=(m[1].match(/^(\d+)\s*[·.]\s*/)||[])[1], txt=m[1].replace(/^\d+\s*[·.]\s*/,"");
+      out.push(`<figure><a href="${esc(m[2])}" target="_blank" rel="noopener" title="Agrandir la capture"><img src="${esc(m[2])}" alt="${esc(txt.replace(/\*/g,""))}" loading="lazy"></a>${m[1]?`<figcaption>${num?`<b>Capture ${num} ·</b> `:""}${inline(txt)}</figcaption>`:""}</figure>`); continue; }
     if ((m=line.match(/^(#{1,3})\s+(.*)/))) { flushP(); flushL(); const lv=m[1].length===1?2:3; out.push(`<h${lv}>${inline(m[2])}</h${lv}>`); continue; }
     if ((m=line.match(/^>\s?(.*)/))) { flushP(); flushL(); out.push(`<blockquote>${inline(m[1])}</blockquote>`); continue; }
     if ((m=line.match(/^\s*[-•]\s+(.*)/))) { flushP(); if(!list||list.t!=="ul"){flushL(); list={t:"ul",items:[]};} list.items.push(m[1]); continue; }
     if ((m=line.match(/^\s*\d+[.)]\s+(.*)/))) { flushP(); if(!list||list.t!=="ol"){flushL(); list={t:"ol",items:[]};} list.items.push(m[1]); continue; }
     flushL(); para.push(line);
   }
-  flushP(); flushL(); return out.join("");
+  flushT(); flushP(); flushL(); return out.join("");
 }
 
 function showLesson(id){
@@ -222,7 +240,7 @@ function showLesson(id){
       <button class="btn orange" type="button" data-go="${(next||all[0]).id}">${next && next!==all[0] ? "Reprendre ma formation →" : "Commencer la formation →"}</button></div>`
       : `<p class="empty">Les premières leçons arrivent très bientôt.</p>`}
       ${(()=>{ const seen=new Set(), res=all.flatMap(l=>(l.resources||[]).filter(r=>r.url&&!seen.has(r.url)&&seen.add(r.url)).map(r=>({...r,lesson:l})));
-        return res.length?`<div class="res"><h3>Toutes les fiches pratiques (${res.length})</h3>${res.map(r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener" style="display:block;padding:6px 0;font-weight:600">📄 ${esc(r.name)} <span style="font-weight:400;opacity:.7">· leçon ${r.lesson.mi+1}.${esc(r.lesson.id.split("l")[1]||"")}</span></a>`).join("")}</div>`:""; })()}`;
+        return res.length?`<div class="res"><h3>Toutes les fiches pratiques (${res.length})</h3>${res.map(r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener" style="display:block;padding:6px 0;font-weight:600">📄 ${esc(r.name)} <span style="font-weight:400;opacity:.7">· leçon ${r.lesson.mi+1}.${r.lesson.li+(DATA.course.modules[r.lesson.mi].lessons[0]?.id.endsWith("l0")?0:1)}</span></a>`).join("")}</div>`:""; })()}`;
     renderToc(); return;
   }
   const i = all.findIndex(l=>l.id===id), l = all[i]; if(!l) return showLesson(null);

@@ -1,0 +1,274 @@
+{
+ "name": "Demande de devis · Formulaire → Tableau",
+ "nodes": [
+  {
+   "parameters": {
+    "formTitle": "Demande de devis",
+    "formDescription": "Décrivez votre projet, nous revenons vers vous sous 48 h.",
+    "formFields": {
+     "values": [
+      {
+       "fieldLabel": "Prénom",
+       "requiredField": true
+      },
+      {
+       "fieldLabel": "Nom",
+       "requiredField": true
+      },
+      {
+       "fieldLabel": "E-mail",
+       "fieldType": "email",
+       "requiredField": true
+      },
+      {
+       "fieldLabel": "Entreprise"
+      },
+      {
+       "fieldLabel": "Besoin",
+       "fieldType": "dropdown",
+       "fieldOptions": {
+        "values": [
+         {
+          "option": "Réseaux sociaux"
+         },
+         {
+          "option": "Photo"
+         },
+         {
+          "option": "Vidéo"
+         },
+         {
+          "option": "Identité visuelle"
+         },
+         {
+          "option": "IA & automatisation"
+         }
+        ]
+       },
+       "requiredField": true
+      },
+      {
+       "fieldLabel": "Budget (€)",
+       "fieldType": "number"
+      },
+      {
+       "fieldLabel": "Message",
+       "fieldType": "textarea"
+      }
+     ]
+    },
+    "options": {
+     "appendAttribution": false
+    }
+   },
+   "id": "a5abae0a-f258-412d-b996-b70f38cf0ceb",
+   "name": "Formulaire de devis",
+   "type": "n8n-nodes-base.formTrigger",
+   "typeVersion": 2.3,
+   "position": [
+    0,
+    0
+   ],
+   "webhookId": "49d61825-7840-4e14-9051-5fb86f3b4e5c"
+  },
+  {
+   "parameters": {
+    "assignments": {
+     "assignments": [
+      {
+       "id": "c3d1fdac-9a84-4333-91a4-a7ea3d1e5af1",
+       "name": "date_reception",
+       "value": "={{ $now.toFormat('dd/LL/yyyy HH:mm') }}",
+       "type": "string"
+      },
+      {
+       "id": "c16c329c-35e2-4f17-827a-4e06e58495a7",
+       "name": "prenom",
+       "value": "={{ $json['Prénom'] }}",
+       "type": "string"
+      },
+      {
+       "id": "dc43d994-38e1-45da-8241-e798ad152813",
+       "name": "nom",
+       "value": "={{ $json.Nom }}",
+       "type": "string"
+      },
+      {
+       "id": "2d6db40f-2011-4313-b554-c8f542b1700d",
+       "name": "email",
+       "value": "={{ $json['E-mail'] }}",
+       "type": "string"
+      },
+      {
+       "id": "5b22a0de-3c9a-48e8-8abe-aed05da39950",
+       "name": "entreprise",
+       "value": "={{ $json.Entreprise || 'non précisé' }}",
+       "type": "string"
+      },
+      {
+       "id": "a2c8e2c8-4e84-4a16-bba1-86264537be6e",
+       "name": "besoin",
+       "value": "={{ $json.Besoin }}",
+       "type": "string"
+      },
+      {
+       "id": "01a348a0-2080-4dfc-9367-919d8586cd31",
+       "name": "budget",
+       "value": "={{ $json['Budget (€)'] || 0 }}",
+       "type": "number"
+      },
+      {
+       "id": "d215665c-0e33-44db-8448-13cf31f4d39e",
+       "name": "statut",
+       "value": "Nouveau",
+       "type": "string"
+      }
+     ]
+    },
+    "options": {}
+   },
+   "id": "08e9ebee-cd55-4c60-a212-13700b4bdc0f",
+   "name": "Préparer les données",
+   "type": "n8n-nodes-base.set",
+   "typeVersion": 3.4,
+   "position": [
+    272,
+    0
+   ]
+  },
+  {
+   "parameters": {
+    "dataTableId": {
+     "__rl": true,
+     "mode": "list",
+     "value": ""
+    },
+    "columns": {
+     "mappingMode": "autoMapInputData",
+     "value": {},
+     "matchingColumns": [],
+     "schema": [
+      {
+       "id": "date_reception",
+       "displayName": "date_reception",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "readOnly": false,
+       "removed": false
+      },
+      {
+       "id": "prenom",
+       "displayName": "prenom",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "readOnly": false,
+       "removed": false
+      },
+      {
+       "id": "nom",
+       "displayName": "nom",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "readOnly": false,
+       "removed": false
+      },
+      {
+       "id": "email",
+       "displayName": "email",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "readOnly": false,
+       "removed": false
+      },
+      {
+       "id": "entreprise",
+       "displayName": "entreprise",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "readOnly": false,
+       "removed": false
+      },
+      {
+       "id": "besoin",
+       "displayName": "besoin",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "readOnly": false,
+       "removed": false
+      },
+      {
+       "id": "budget",
+       "displayName": "budget",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "number",
+       "readOnly": false,
+       "removed": false
+      },
+      {
+       "id": "statut",
+       "displayName": "statut",
+       "required": false,
+       "defaultMatch": false,
+       "display": true,
+       "type": "string",
+       "readOnly": false,
+       "removed": false
+      }
+     ],
+     "attemptToConvertTypes": false,
+     "convertFieldsToString": false
+    },
+    "options": {}
+   },
+   "id": "384f141a-1def-4e1c-b9ed-a341196517a3",
+   "name": "Enregistrer la demande",
+   "type": "n8n-nodes-base.dataTable",
+   "typeVersion": 1,
+   "position": [
+    528,
+    0
+   ]
+  }
+ ],
+ "connections": {
+  "Formulaire de devis": {
+   "main": [
+    [
+     {
+      "node": "Préparer les données",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Préparer les données": {
+   "main": [
+    [
+     {
+      "node": "Enregistrer la demande",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1"
+ }
+}
