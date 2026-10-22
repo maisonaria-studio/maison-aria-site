@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vérifier une attestation · Aria Academy</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@700;800&family=Wix+Madefor+Text:wght@400;600;700&display=swap">
+<style>
+:root{--blue:#0A22AE;--cream:#F4F1EA;--orange:#F0993F;--ink:#16237A}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--blue);font:16px/1.5 "Wix Madefor Text",Arial,sans-serif;color:var(--ink);padding:20px}
+.card{background:var(--cream);border-radius:16px;padding:32px;width:min(520px,100%)}
+h1{font:800 30px/1.1 "Wix Madefor Display",Arial;color:var(--blue);margin:0 0 6px}
+p{margin:0 0 16px}label{font-weight:600;display:block;margin-bottom:6px}
+input{width:100%;font:inherit;padding:12px 14px;border:1.5px solid #CFC9B8;border-radius:10px;text-transform:uppercase;letter-spacing:.05em}
+button{margin-top:12px;width:100%;background:var(--orange);color:var(--blue);border:0;border-radius:10px;padding:12px;font:700 16px "Wix Madefor Text",Arial;cursor:pointer}
+.res{margin-top:18px;padding:14px 16px;border-radius:10px;background:#fff;display:none}
+.ok{border-left:5px solid #2E9E5B}.ko{border-left:5px solid #D9534F}
+small{display:block;margin-top:18px;color:#5A63A8}
+a{color:var(--blue)}
+</style></head><body>
+<form class="card" id="f">
+  <h1>Vérifier une attestation</h1>
+  <p>Saisis le numéro inscrit sur l'attestation Aria Academy (format AA-XXXXX).</p>
+  <label for="id">Numéro d'attestation</label>
+  <input id="id" placeholder="AA-XXXXX" required pattern="AA-[A-Za-z0-9]{5}">
+  <button type="submit">Vérifier</button>
+  <div class="res" id="r"></div>
+  <small>Aria Academy est la formation en ligne de <a href="/">Maison Aria</a>, Golfe de Saint-Tropez.</small>
+</form>
+<script>
+const f=document.getElementById("f"), r=document.getElementById("r"), i=document.getElementById("id");
+const q=new URLSearchParams(location.search).get("id"); if(q){ i.value=q; setTimeout(()=>f.requestSubmit(),0); }
+f.addEventListener("submit",async e=>{ e.preventDefault(); r.style.display="block"; r.className="res"; r.textContent="Vérification…";
+  try{ const j=await fetch("/api/attestation?id="+encodeURIComponent(i.value.trim().toUpperCase())).then(x=>x.json());
+    if(j.valid){ r.className="res ok"; r.innerHTML="<b>Attestation valide.</b><br>Délivrée à <b>"+j.name.replace(/</g,"&lt;")+"</b> le "+new Date(j.date+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})+".<br>"+j.course; }
+    else { r.className="res ko"; r.innerHTML="<b>Aucune attestation ne correspond à ce numéro.</b>"; } }
+  catch(_){ r.className="res ko"; r.textContent="Vérification impossible pour le moment, réessaie plus tard."; } });
+</script></body></html>

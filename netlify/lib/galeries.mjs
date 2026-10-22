@@ -94,6 +94,23 @@ function insertLessons(c, extra) {
 function replaceText(c, pairs) {
   for (const m of c.modules) for (const l of m.lessons) for (const [a, b] of pairs) if (l.body?.includes(a)) l.body = l.body.split(a).join(b);
 }
+const WELCOME_QUIZ = [["## Tu n'es pas seul·e", "## Valider tes acquis et obtenir ton attestation\n\nÀ la fin de chaque module, un **quiz de 6 à 10 questions** te permet de vérifier ce que tu as retenu (70 % pour le valider, autant d'essais que tu veux, avec l'explication de chaque réponse). Quand toutes les leçons sont terminées et les quiz validés, l'**évaluation finale** (75 % requis) débloque ton **attestation de réussite Aria Academy**, à télécharger en PDF, avec un numéro vérifiable en ligne.\n\n## Tu n'es pas seul·e"]];
+// Fiches PDF ajoutées aux leçons existantes (sans doublon)
+const NEW_RES = {"a1l2": [{"name": "Check-list sécurité et RGPD (fiche PDF)", "url": "/formation/ressources/Aria-Academy_Check-list-securite-RGPD.pdf"}], "a3l2": [{"name": "Ma bibliothèque de modèles (fiche PDF)", "url": "/formation/ressources/Aria-Academy_Ma-bibliotheque-de-modeles.pdf"}], "a4l1": [{"name": "Comparatif des assistants IA et grille de test (fiche PDF)", "url": "/formation/ressources/Aria-Academy_Comparatif-assistants-IA.pdf"}], "a5l1": [{"name": "Choisir mon premier assistant (fiche PDF)", "url": "/formation/ressources/Aria-Academy_Choisir-mon-premier-assistant.pdf"}], "a5l3": [{"name": "Fiche d'utilisation d'un assistant partagé (PDF)", "url": "/formation/ressources/Aria-Academy_Fiche-d-utilisation-assistant.pdf"}], "a8l3": [{"name": "Plan d'adoption pour l'équipe (fiche PDF)", "url": "/formation/ressources/Aria-Academy_Plan-d-adoption-equipe.pdf"}], "a9l2": [{"name": "La boîte mail sous contrôle (fiche PDF)", "url": "/formation/ressources/Aria-Academy_Boite-mail-sous-controle.pdf"}], "a9l3": [{"name": "Mon reporting hebdomadaire (fiche PDF)", "url": "/formation/ressources/Aria-Academy_Reporting-hebdomadaire.pdf"}]};
+function addResources(c, map) {
+  for (const m of c.modules) for (const l of m.lessons) for (const r of map[l.id] || []) {
+    l.resources = l.resources || [];
+    if (!l.resources.some(x => x.url === r.url)) l.resources.push(r);
+  }
+}
+// Leçons ajoutées : met à jour titre, contenu et ressources (version la plus récente des fichiers src/academy)
+function refreshLessons(c, extra) {
+  for (const { lessons } of extra) for (const nl of lessons) for (const m of c.modules) {
+    const l = m.lessons.find(x => x.id === nl.id); if (!l) continue;
+    l.title = nl.title; l.body = nl.body;
+    addResources(c, { [nl.id]: nl.resources });
+  }
+}
 const PATCHES = [
   [1, c => { replaceModule(c, MODULE_1); c.intro = DEFAULT_COURSE.intro; }],
   [2, c => setVideos(c, Object.fromEntries(MODULE_1.lessons.map(l => [l.id, l.video])))],
@@ -108,6 +125,7 @@ const PATCHES = [
   [11, c => swapVideos(c, { a9l1: ["https://youtu.be/cKaFazcdjyo", "https://youtu.be/3Dm61Zm_hf4"], a9l2: ["https://youtu.be/YesYTXZeMOM", "https://youtu.be/zCW2Kqj-TsE"], a9l3: ["https://youtu.be/075jIuPdHz4", "https://youtu.be/UHnRRN_ONbw"] })],
   [12, c => swapVideos(c, { a9l4: ["https://youtu.be/2wxMj7djo3g", "https://youtu.be/v6ydN0bNA7Q"] })],
   [13, c => { insertLessons(c, EXTRA_LESSONS); replaceText(c, VIBE); }],
+  [14, c => { insertLessons(c, EXTRA_LESSONS); refreshLessons(c, EXTRA_LESSONS); addResources(c, NEW_RES); if (!JSON.stringify(c).includes("## Valider tes acquis")) replaceText(c, WELCOME_QUIZ); }],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
