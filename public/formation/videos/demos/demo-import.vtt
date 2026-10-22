@@ -1,0 +1,28 @@
+WEBVTT
+
+00:00:04.517 --> 00:00:13.789
+Chaque atelier de la formation est fourni avec un modèle à télécharger : un fichier .json, prêt à importer dans n8n.
+
+00:00:13.789 --> 00:00:22.652
+C'est le moyen le plus rapide de démarrer : tu récupères tout le workflow, puis tu l'adaptes à ton activité.
+
+00:00:22.654 --> 00:00:28.252
+Après avoir téléchargé le modèle depuis la leçon, crée un nouveau workflow.
+
+00:00:28.252 --> 00:00:35.891
+Ouvre le menu, les trois petits points à côté du nom, puis Import, et Import from file.
+
+00:00:36.980 --> 00:00:42.578
+Et voilà : le workflow complet apparaît, avec ses étapes déjà réglées.
+
+00:00:42.580 --> 00:00:50.627
+Il reste une chose à faire : relier le modèle à tes propres outils. Ouvre l'étape du tableau.
+
+00:00:50.627 --> 00:00:59.898
+Choisis ton tableau dans la liste. Pour une étape Gmail ou OpenAI, tu choisirais de la même façon ton compte connecté.
+
+00:01:01.943 --> 00:01:09.174
+Teste ensuite avec Execute workflow, comme dans l'atelier, et renomme le workflow avec un nom clair.
+
+00:01:09.176 --> 00:01:16.815
+À toi de jouer : télécharge le modèle de l'atelier, importe-le, et branche-le sur tes propres outils.

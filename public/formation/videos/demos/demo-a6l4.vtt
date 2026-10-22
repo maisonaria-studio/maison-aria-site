@@ -1,0 +1,97 @@
+WEBVTT
+
+00:00:04.504 --> 00:00:10.918
+Dans cette démonstration, on construit ensemble une vraie automatisation, du début à la fin.
+
+00:00:10.918 --> 00:00:19.373
+Objectif : chaque demande de devis remplie sur un formulaire arrive toute seule dans un tableau, sans rien recopier.
+
+00:00:19.377 --> 00:00:24.158
+On part de l'accueil de n8n. Clique sur Create workflow.
+
+00:00:24.158 --> 00:00:31.797
+Un canevas vide s'ouvre. Commence par donner un nom clair à ton workflow, en haut à gauche.
+
+00:00:31.800 --> 00:00:39.030
+Toute automatisation commence par un déclencheur : l'événement qui la lance. Clique sur Add first step.
+
+00:00:39.030 --> 00:00:44.220
+Tape « form » dans la recherche, puis choisis n8n Form.
+
+00:00:46.041 --> 00:00:52.455
+Le panneau de réglages s'ouvre. Donne un titre au formulaire, puis une courte description.
+
+00:00:52.984 --> 00:00:58.173
+Ajoute maintenant les champs, un par un, avec Add Form Element.
+
+00:00:58.173 --> 00:01:04.996
+Pour l'adresse e-mail, choisis le type Email : le formulaire vérifiera que l'adresse est valide.
+
+00:01:10.709 --> 00:01:16.715
+Et pour le message, le type Textarea : une grande zone de texte.
+
+00:01:19.203 --> 00:01:26.841
+Testons tout de suite. Clique sur Execute step : n8n ouvre le formulaire dans une nouvelle fenêtre.
+
+00:01:26.841 --> 00:01:31.215
+Voici ton formulaire. Remplis-le comme le ferait un client.
+
+00:01:38.481 --> 00:01:41.081
+Et envoie.
+
+00:01:42.610 --> 00:01:53.514
+De retour dans n8n, la demande de Léa apparaît à droite, dans la sortie du déclencheur : chaque champ du formulaire est devenu une donnée.
+
+00:01:54.458 --> 00:02:02.504
+Deuxième étape : enregistrer la demande dans un tableau. Clique sur le petit plus, à droite du déclencheur.
+
+00:02:02.504 --> 00:02:11.776
+Cherche Data table : ce sont les tableaux intégrés à n8n. Google Sheets ou Airtable marchent exactement de la même façon.
+
+00:02:11.776 --> 00:02:15.741
+Choisis l'action Insert row : ajouter une ligne.
+
+00:02:15.741 --> 00:02:22.564
+Dans le champ Data table, choisis le tableau Demandes de devis. Ses colonnes s'affichent aussitôt.
+
+00:02:22.566 --> 00:02:33.061
+Voici l'étape clé : relier chaque donnée du formulaire à la bonne colonne. À gauche, les données reçues. À droite, les colonnes du tableau.
+
+00:02:33.061 --> 00:02:39.068
+Il suffit de glisser chaque donnée dans son champ. Le prénom dans prenom.
+
+00:02:39.068 --> 00:02:44.666
+L'adresse e-mail dans email, l'entreprise dans entreprise, et le message dans besoin.
+
+00:02:53.843 --> 00:03:00.257
+Pour le statut, tape simplement Nouveau : toutes les demandes arriveront avec ce statut.
+
+00:03:00.257 --> 00:03:07.896
+Et pour la date de réception, une petite formule qui écrit la date et l'heure du moment.
+
+00:03:07.899 --> 00:03:11.864
+Clique sur Execute step pour tester cette étape.
+
+00:03:11.864 --> 00:03:21.135
+À droite, la ligne enregistrée : la date, le prénom, l'e-mail, l'entreprise, le besoin et le statut. Tout est bien rangé.
+
+00:03:22.431 --> 00:03:28.028
+Sur le canevas, les deux étapes sont vertes : ton automatisation fonctionne.
+
+00:03:28.531 --> 00:03:31.271
+Vérifions dans le tableau lui-même.
+
+00:03:35.548 --> 00:03:42.778
+La demande de Léa est arrivée en dernière ligne, avec la date et le statut Nouveau.
+
+00:03:43.282 --> 00:03:51.737
+Dernière étape : la mise en service. Tant que le workflow n'est pas publié, il ne fonctionne qu'en test.
+
+00:03:51.737 --> 00:04:02.233
+Clique sur Publish en haut à droite. Le formulaire reçoit alors son adresse définitive, la Production URL, que tu peux mettre sur ton site.
+
+00:04:02.233 --> 00:04:09.463
+À partir de là, chaque nouvelle demande arrive toute seule dans ton tableau, jour et nuit.
+
+00:04:09.467 --> 00:04:18.738
+À toi de jouer : reproduis ce workflow avec les champs de ton propre formulaire, et envoie trois demandes de test.

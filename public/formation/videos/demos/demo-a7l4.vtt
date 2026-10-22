@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:04.508 --> 00:00:09.698
+Dans cette démonstration, on ajoute de l'intelligence artificielle dans une automatisation.
+
+00:00:09.698 --> 00:00:18.153
+À chaque demande de devis, l'IA rédige un brouillon de réponse personnalisé, et l'envoie dans ta boîte pour relecture.
+
+00:00:18.153 --> 00:00:24.975
+Trois étapes : le formulaire, l'étape IA avec son modèle branché en dessous, puis l'e-mail.
+
+00:00:24.978 --> 00:00:28.535
+Ouvre l'étape IA, une Basic LLM Chain.
+
+00:00:28.675 --> 00:00:39.171
+Premier réglage : le prompt. C'est la demande faite à l'IA, avec les données du formulaire insérées automatiquement : prénom, entreprise, besoin, budget, message.
+
+00:00:39.171 --> 00:00:47.626
+Deuxième réglage, plus bas : le message System. C'est le rôle et les règles de l'IA, toujours les mêmes.
+
+00:00:47.626 --> 00:00:57.305
+Ici : une assistante commerciale chaleureuse, 150 mots maximum, trois questions utiles, un appel proposé, et surtout, elle n'invente jamais de prix.
+
+00:00:59.529 --> 00:01:02.678
+Sous l'étape IA, le modèle. Ouvre-le.
+
+00:01:03.133 --> 00:01:12.404
+On y choisit le compte, avec ta clé API, le modèle, et la température. Une température basse donne des réponses régulières.
+
+00:01:12.404 --> 00:01:19.227
+Tu peux remplacer OpenAI par Claude, Gemini ou Mistral, sans toucher au reste du workflow.
+
+00:01:21.627 --> 00:01:32.123
+Dernière étape : l'e-mail. Le texte rédigé par l'IA s'insère avec une simple expression, et le brouillon arrive chez toi, pas chez le client.
+
+00:01:34.576 --> 00:01:38.949
+Testons. Clique sur Execute workflow : le formulaire s'ouvre.
+
+00:01:38.949 --> 00:01:46.588
+On joue le client : Thomas, du Domaine des Vignes, qui veut une vidéo pour ses vendanges.
+
+00:02:01.207 --> 00:02:06.805
+Dans n8n, les trois étapes passent au vert, y compris le modèle.
+
+00:02:06.808 --> 00:02:15.263
+Ouvre l'étape IA pour voir le résultat : à gauche, la demande de Thomas. À droite, le brouillon rédigé.
+
+00:02:15.263 --> 00:02:29.024
+L'IA reprend son prénom, son projet, pose trois questions utiles et propose un appel. Pour ces images, le modèle était branché sur un compte de démonstration : c'est un exemple de réponse.
+
+00:02:31.232 --> 00:02:39.687
+Et l'e-mail est parti vers ta boîte, avec l'adresse du client rappelée en tête pour répondre en un clic.
+
+00:02:41.993 --> 00:02:53.305
+À toi de jouer : choisis un message que tu écris souvent, construis ce workflow avec ton propre message System, et teste-le sur cinq demandes différentes.

@@ -1,0 +1,52 @@
+WEBVTT
+
+00:00:04.494 --> 00:00:12.133
+Voici un agent IA. Contrairement à une automatisation classique, il n'a pas de chemin fixé à l'avance.
+
+00:00:12.133 --> 00:00:20.588
+Il reçoit un objectif, des règles et des outils, et c'est lui qui décide quoi faire selon la conversation.
+
+00:00:20.588 --> 00:00:29.859
+Au centre, l'agent. En dessous : le modèle, la mémoire de la conversation, et trois outils branchés sur la prise Tool.
+
+00:00:30.341 --> 00:00:36.347
+Ouvre l'agent. L'essentiel est dans le message System : son contrat de travail.
+
+00:00:36.347 --> 00:00:46.843
+Son rôle, quand utiliser chaque outil, ce qu'il doit obtenir avant de réserver, et ses interdits : jamais de créneau inventé, jamais de prix.
+
+00:00:49.116 --> 00:00:57.979
+Premier outil : consulter les créneaux libres. Il lit le tableau des créneaux, et seulement les lignes au statut libre.
+
+00:00:57.979 --> 00:01:03.985
+Sa description est importante : l'agent la lit pour décider quand s'en servir.
+
+00:01:06.320 --> 00:01:15.591
+Deuxième outil : réserver un créneau. Les valeurs marquées d'une étoile seront remplies par l'agent lui-même, à partir de la conversation.
+
+00:01:18.019 --> 00:01:24.025
+Place au test. Clique sur Open chat, et joue le rôle d'un client.
+
+00:01:37.035 --> 00:01:46.306
+L'agent a consulté le tableau, et propose les quatre créneaux libres. Il demande aussi l'adresse e-mail, qui lui manque pour réserver.
+
+00:01:46.306 --> 00:01:56.802
+À droite, les logs montrent ce qu'il a fait. Clique sur l'outil pour voir les lignes qu'il a lues : il n'a rien inventé.
+
+00:02:04.780 --> 00:02:13.643
+Cette fois, il enchaîne seul deux outils : réserver le créneau, puis enregistrer la demande. Et il confirme à Julie.
+
+00:02:13.646 --> 00:02:17.203
+Testons un interdit : demandons le prix.
+
+00:02:19.877 --> 00:02:31.597
+L'agent respecte sa règle : pas de prix, il renvoie vers le devis de l'équipe. Pour ces images, le modèle était branché sur un compte de démonstration.
+
+00:02:31.600 --> 00:02:40.871
+Vérifions les tableaux. Dans les créneaux, le 5 novembre au matin est passé à réservé, au nom de l'Hôtel Les Lauriers.
+
+00:02:40.871 --> 00:02:47.285
+Et dans les demandes de devis, la ligne de Julie est arrivée toute seule.
+
+00:02:47.288 --> 00:03:00.641
+À toi de jouer : imagine un agent pour une conversation que tu as souvent avec tes clients. Deux outils maximum, et des tests pièges avant de le mettre en ligne.

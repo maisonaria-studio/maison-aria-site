@@ -84,6 +84,8 @@ main.lesson h1{font-size:clamp(30px,4vw,46px);font-weight:800;line-height:1.05;m
 .body ul,.body ol{padding-left:1.3em;margin:0 0 14px}
 .body code{background:#fff;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:.92em}
 .body figure{margin:22px 0 26px;width:min(900px,calc(100vw - 40px))}
+.body figure.demo .video{margin:0}
+.body figure.demo video::cue{font-family:var(--text);font-size:.95em;background:rgba(20,26,64,.85)}
 .body figure a{display:block;cursor:zoom-in}
 .body figure img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff;box-shadow:0 8px 24px rgba(10,34,174,.08)}
 .body figcaption{font-size:14px;line-height:1.45;color:var(--muted);margin-top:8px}
@@ -266,6 +268,11 @@ function md(src){
     if (/^\s*\|.*\|\s*$/.test(line)) { flushP(); flushL(); (tbl=tbl||[]).push(line); continue; }
     flushT();
     if (!line.trim()) { flushP(); flushL(); continue; }
+    if ((m=line.match(/^!video\[(.*?)\]\((\/formation\/[^\s)]+\.mp4|https:\/\/[^\s)]+)\)\s*$/))) { flushP(); flushL();
+      const u=m[2], yt=embed(u), base=u.replace(/\.mp4$/,"");
+      out.push(/\.mp4$/.test(u)
+        ? `<figure class="demo"><div class="video"><video src="${esc(u)}" poster="${esc(base)}.jpg" controls playsinline preload="metadata" controlslist="nodownload" disablepictureinpicture><track kind="subtitles" srclang="fr" label="Français" src="${esc(base)}.vtt" default></video></div>${m[1]?`<figcaption><b>Démo vidéo ·</b> ${inline(m[1])}</figcaption>`:""}</figure>`
+        : `<figure class="demo"><div class="video"><iframe src="${esc(yt)}" title="${esc(m[1])}" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>${m[1]?`<figcaption><b>Démo vidéo ·</b> ${inline(m[1])}</figcaption>`:""}</figure>`); continue; }
     if ((m=line.match(/^!\[(.*?)\]\((\/formation\/[^\s)]+|https:\/\/[^\s)]+)\)\s*$/))) { flushP(); flushL();
       const num=(m[1].match(/^(\d+)\s*[·.]\s*/)||[])[1], txt=m[1].replace(/^\d+\s*[·.]\s*/,"");
       out.push(`<figure><a href="${esc(m[2])}" target="_blank" rel="noopener" title="Agrandir la capture"><img src="${esc(m[2])}" alt="${esc(txt.replace(/\*/g,""))}" loading="lazy"></a>${m[1]?`<figcaption>${num?`<b>Capture ${num} ·</b> `:""}${inline(txt)}</figcaption>`:""}</figure>`); continue; }

@@ -1,0 +1,67 @@
+WEBVTT
+
+00:00:04.507 --> 00:00:12.145
+Avant de construire ta première automatisation, faisons le tour de n8n, pour savoir où trouver chaque chose.
+
+00:00:12.150 --> 00:00:19.380
+Voici l'accueil. En haut, quelques chiffres : le nombre d'exécutions, les erreurs, et le temps gagné.
+
+00:00:19.380 --> 00:00:25.386
+En dessous, la liste de tes workflows : chaque ligne est une automatisation.
+
+00:00:25.386 --> 00:00:30.576
+Et le gros bouton Create workflow pour en créer une nouvelle.
+
+00:00:30.580 --> 00:00:39.443
+Les onglets en dessous sont très utiles. Credentials : les comptes connectés, comme Gmail, Google Sheets ou ta clé OpenAI.
+
+00:00:39.443 --> 00:00:45.041
+Chaque compte n'est connecté qu'une fois, puis réutilisé dans tous tes workflows.
+
+00:00:45.041 --> 00:00:50.231
+Executions : l'historique de toutes les exécutions, réussies ou en erreur.
+
+00:00:50.232 --> 00:00:58.687
+Et Data tables : les tableaux intégrés à n8n, pratiques pour stocker tes demandes, tes créneaux ou tes clients.
+
+00:01:01.264 --> 00:01:11.351
+Ouvrons un workflow. Le cœur de n8n, c'est ce canevas : les étapes, appelées nœuds, reliées par des flèches, de gauche à droite.
+
+00:01:11.351 --> 00:01:17.357
+Tout à gauche, l'éclair orange signale le déclencheur : ce qui lance l'automatisation.
+
+00:01:17.357 --> 00:01:27.445
+En bas à gauche, les boutons pour zoomer, ou tout afficher d'un coup. Tu peux aussi déplacer le canevas en le faisant glisser.
+
+00:01:27.451 --> 00:01:35.497
+Double-clique sur une étape pour l'ouvrir. Le panneau est toujours organisé de la même façon, en trois colonnes.
+
+00:01:35.497 --> 00:01:40.687
+À gauche, Input : les données qui arrivent de l'étape précédente.
+
+00:01:40.687 --> 00:01:44.653
+Au centre, Parameters : les réglages de l'étape.
+
+00:01:44.653 --> 00:01:53.516
+À droite, Output : le résultat, une fois l'étape exécutée. Le bouton Execute step permet de tester cette étape seule.
+
+00:01:55.684 --> 00:02:04.955
+Pour ajouter une étape, clique sur le plus en haut à droite, ou sur le petit plus au bout d'une flèche.
+
+00:02:04.955 --> 00:02:15.859
+Le menu classe tout par familles : l'IA, les actions dans tes applications, la transformation des données, la logique comme les conditions, et les déclencheurs.
+
+00:02:15.859 --> 00:02:21.457
+Le plus simple : taper le nom de l'outil. Par exemple Gmail.
+
+00:02:21.457 --> 00:02:30.320
+Pour chaque application, n8n propose des déclencheurs et des actions : envoyer un e-mail, ajouter une étiquette, créer un brouillon…
+
+00:02:31.631 --> 00:02:38.861
+Enfin, deux boutons à retenir. Execute workflow, en bas, lance un test complet quand tu veux.
+
+00:02:38.861 --> 00:02:47.316
+Et Publish, en haut à droite, met l'automatisation en service : elle tourne alors toute seule, même ordinateur éteint.
+
+00:02:47.318 --> 00:02:55.773
+Tu connais maintenant l'essentiel de l'interface. Dans la prochaine démonstration, on construit ensemble une automatisation complète, clic par clic.

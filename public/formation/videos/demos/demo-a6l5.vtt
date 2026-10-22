@@ -1,0 +1,79 @@
+WEBVTT
+
+00:00:04.507 --> 00:00:13.778
+Voici une automatisation planifiée, comme celle de l'atelier : chaque lundi matin, elle s'occupe des demandes de devis restées sans réponse.
+
+00:00:13.778 --> 00:00:20.192
+On va l'ouvrir étape par étape, la faire tourner en direct, puis la modifier.
+
+00:00:20.192 --> 00:00:30.688
+De gauche à droite : un déclencheur horaire, la lecture du tableau, une condition sur le budget, et deux e-mails différents selon la réponse.
+
+00:00:30.692 --> 00:00:33.841
+Double-clique sur le déclencheur Schedule Trigger.
+
+00:00:34.280 --> 00:00:39.470
+Il se lance toutes les semaines, le lundi, à 9 heures.
+
+00:00:39.470 --> 00:00:47.108
+Tu peux choisir chaque jour, chaque heure, ou même plusieurs règles à la fois avec Add Rule.
+
+00:00:49.429 --> 00:00:53.394
+Deuxième étape : lire le tableau des demandes.
+
+00:00:53.394 --> 00:01:02.257
+L'opération Get récupère les lignes du tableau Demandes de devis, mais seulement celles dont le statut est égal à Nouveau.
+
+00:01:02.257 --> 00:01:09.080
+Return All est activé : on récupère toutes les demandes concernées, pas seulement la première.
+
+00:01:11.412 --> 00:01:17.010
+Troisième étape, la condition. Elle pose une question simple à chaque demande.
+
+00:01:17.010 --> 00:01:27.914
+Le budget est-il supérieur ou égal à 1 000 euros ? Si oui, la demande part dans la branche true. Sinon, dans la branche false.
+
+00:01:27.914 --> 00:01:34.328
+Le champ budget a simplement été glissé depuis la gauche, comme dans l'atelier précédent.
+
+00:01:36.556 --> 00:01:41.337
+Dans la branche true, un e-mail d'alerte part vers toi.
+
+00:01:41.337 --> 00:01:50.201
+On choisit le compte d'envoi, l'expéditeur, le destinataire, puis l'objet et le texte, avec les données de la demande insérées.
+
+00:01:52.518 --> 00:01:59.748
+Dans la branche false, une relance polie part directement vers le client, à son adresse e-mail.
+
+00:02:02.030 --> 00:02:06.811
+Pas besoin d'attendre lundi pour tester. Clique sur Execute workflow.
+
+00:02:07.694 --> 00:02:17.373
+Tout passe au vert. Regarde les petits chiffres sur les liens : 3 demandes lues, 2 vers l'alerte, 1 vers la relance.
+
+00:02:17.374 --> 00:02:22.972
+Ouvre la condition pour voir quelles demandes sont passées de chaque côté.
+
+00:02:23.015 --> 00:02:29.429
+Dans la branche true, Camille et Sophie : 1 800 et 2 500 euros.
+
+00:02:31.419 --> 00:02:37.833
+Dans la branche false, la demande de Julien, 450 euros, qui recevra la relance.
+
+00:02:39.975 --> 00:02:47.613
+Tu veux changer la règle ? Rien de plus simple. Passons le seuil à 2 000 euros.
+
+00:02:47.613 --> 00:02:50.354
+Puis on relance le test.
+
+00:02:55.438 --> 00:03:03.485
+Cette fois, une seule demande dépasse le seuil : celle de Sophie. Camille et Julien reçoivent la relance.
+
+00:03:03.487 --> 00:03:11.125
+Enfin, l'onglet Executions garde la trace de chaque passage : la date, la durée, et le résultat.
+
+00:03:11.125 --> 00:03:18.356
+Si une exécution échoue un jour, c'est ici que tu verras à quelle étape, et pourquoi.
+
+00:03:22.100 --> 00:03:33.412
+À toi de jouer : construis ta propre relance planifiée, avec une condition adaptée à ton activité, et teste-la avec Execute workflow avant de la publier.
