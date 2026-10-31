@@ -99,5 +99,5 @@ EXPERTISES = {
  faq=[("Quelle formation choisir ?","Aria Academy si vous voulez avancer à votre rythme en ligne ; la formation personnalisée si vous préférez un accompagnement en présentiel sur vos propres dossiers."),
       ("Combien coûte la formation ?","Aria Academy est à partir de 390 € et la formation personnalisée à partir de 490 €."),
       ("Faut-il un abonnement payant à ChatGPT ?","Non, la plupart des exercices sont réalisables avec des offres gratuites."),
-      ("Combien de temps dure Aria Academy ?","La formation compte 9 modules et 29 leçons, à suivre à votre rythme ; chaque leçon se termine par un exercice appliqué à votre entreprise.")]),
+      ("Combien de temps dure Aria Academy ?","La formation compte 9 modules et 43 leçons, soit environ 15 heures dont 8 heures de pratique, à suivre à votre rythme ; chaque module se termine par un quiz, et la formation par une attestation vérifiable.")]),
 }

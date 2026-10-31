@@ -1,10 +1,10 @@
 # Contenu de la page publique /aria-academy/ (page de vente + SEO de la formation)
 ACADEMY = {
     "title": "Formation IA en ligne : automatiser son entreprise | Aria Academy",
-    "meta": "Aria Academy, formation en ligne pour automatiser son entreprise grâce à l'IA, sans coder : 9 modules, 29 leçons vidéo, fiches pratiques et Discord. Dès 390 €.",
+    "meta": "Aria Academy, formation en ligne pour automatiser son entreprise grâce à l'IA, sans coder : 9 modules, 43 leçons, 50 vidéos et démos, quiz, attestation et Discord. Dès 390 €.",
     "h1": "Aria Academy : la formation en ligne pour automatiser son entreprise grâce à l’IA, sans coder",
     "lead": "Identifiez les tâches qui vous font perdre du temps, transformez-les en processus clairs, puis automatisez-les avec l’intelligence artificielle et des outils sans code comme Zapier, Make ou n8n. Une formation concrète, pensée pour les indépendants, les TPE et les PME, à suivre à votre rythme.",
-    "fiches": 15,
+    "fiches": 30,
     "teaches": [
         "Identifier et prioriser les tâches répétitives à automatiser",
         "Cartographier et documenter les processus d'une entreprise",
@@ -30,9 +30,13 @@ ACADEMY = {
         "Un processus complet de votre entreprise automatisé et mesuré à la fin de la formation",
     ],
     "format": [
-        "29 leçons écrites, chacune accompagnée d’une courte vidéo en motion design",
+        "43 leçons écrites et illustrées, chacune accompagnée d’une courte vidéo commentée",
+        "7 démonstrations filmées à l’écran, clic par clic, dans n8n et sur la plateforme",
+        "5 ateliers pas à pas (n8n, Make, IA, agent IA) avec les modèles prêts à importer",
         "Des exercices concrets à appliquer directement à votre entreprise",
-        "15 fiches pratiques à télécharger : matrice impact / effort, modèle de procédure, bibliothèque de prompts, plan de scénario, tableau de suivi des gains…",
+        "30 fiches pratiques à télécharger : matrice impact / effort, modèle de procédure, bibliothèque de prompts, plan de scénario, tableau de suivi des gains…",
+        "Un quiz à la fin de chaque module et une évaluation finale, avec la correction expliquée",
+        "Une attestation de réussite à votre nom, vérifiable en ligne grâce à son numéro unique",
         "Un espace élève en ligne pour suivre votre progression, accessible depuis ordinateur ou téléphone",
         "Une communauté Discord pour poser vos questions et partager vos automatisations",
         "Des outils gratuits ou peu coûteux privilégiés à chaque étape",
@@ -45,10 +49,11 @@ ACADEMY = {
     "faq": [
         ("Faut-il savoir coder pour suivre Aria Academy ?", "Non. Toute la formation utilise des outils sans code (no-code) et des assistants IA grand public. Si vous savez utiliser une messagerie et un tableur, vous pouvez suivre la formation."),
         ("Quels outils sont utilisés dans la formation ?", "Les assistants IA comme ChatGPT, Claude ou Gemini, et les outils d’automatisation Zapier, Make et n8n. La formation explique comment choisir selon votre budget, en privilégiant les offres gratuites ou peu coûteuses."),
-        ("Combien de temps faut-il pour suivre la formation ?", "La formation se suit à votre rythme. Les leçons sont courtes ; comptez une dizaine d’heures, exercices compris, pour aller jusqu’à votre premier processus automatisé."),
+        ("Combien de temps faut-il pour suivre la formation ?", "La formation se suit à votre rythme. Comptez environ 15 heures au total, dont 8 heures de pratique guidée (ateliers et exercices sur votre entreprise) : par exemple deux créneaux par semaine pendant 4 à 6 semaines."),
         ("Comment accéder à la formation ?", "Envoyez votre demande d’accès depuis le site. Vous recevez le montant et le RIB par e-mail, puis votre code d’accès personnel dès réception du paiement. Vous vous connectez ensuite à l’espace élève avec votre e-mail et ce code."),
         ("Combien coûte Aria Academy ?", "La formation en ligne est proposée à partir de 390 €. Pour un accompagnement en présentiel construit autour de votre entreprise, la formation personnalisée débute à 490 €."),
         ("La formation parle-t-elle du RGPD et de l’AI Act ?", "Oui. Un module entier aborde la sécurité : quelles données confier à l’IA, comment protéger les informations de vos clients et quelles obligations prévoit le règlement européen sur l’IA."),
+        ("Obtient-on une attestation à la fin ?", "Oui. Une fois toutes les leçons terminées, les quiz des modules validés (70 % minimum) et l’évaluation finale réussie (75 % minimum), vous obtenez une attestation de réussite à votre nom, téléchargeable en PDF. Chaque attestation porte un numéro unique que n’importe qui peut vérifier sur le site."),
         ("Puis-je être accompagné pour automatiser à ma place ?", "Oui. Maison Aria propose aussi un audit IA, des automatisations simples et des workflows IA réalisés pour vous. La formation reste la solution la plus économique pour devenir autonome."),
     ],
 }

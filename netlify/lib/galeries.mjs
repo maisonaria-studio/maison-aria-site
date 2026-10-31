@@ -97,8 +97,8 @@ function replaceText(c, pairs) {
 const WELCOME_QUIZ = [["## Tu n'es pas seul·e", "## Valider tes acquis et obtenir ton attestation\n\nÀ la fin de chaque module, un **quiz de 6 à 10 questions** te permet de vérifier ce que tu as retenu (70 % pour le valider, autant d'essais que tu veux, avec l'explication de chaque réponse). Quand toutes les leçons sont terminées et les quiz validés, l'**évaluation finale** (75 % requis) débloque ton **attestation de réussite Aria Academy**, à télécharger en PDF, avec un numéro vérifiable en ligne.\n\n## Tu n'es pas seul·e"]];
 // Démonstrations vidéo réelles (enregistrements d'écran) ajoutées en tête de leçons existantes
 const DEMOS = {
-  a1l0: ["## Le tour de la plateforme en vidéo", "!video[Se connecter, suivre les leçons, télécharger les fiches, passer les quiz et obtenir ton attestation (2 min 20).](/formation/videos/demos/demo-plateforme.mp4)"],
-  a6l2: ["## La visite guidée de n8n en vidéo", "!video[L'accueil, le canevas, l'intérieur d'une étape, le menu des applications, le test et la mise en service (3 min).](/formation/videos/demos/demo-tour-n8n.mp4)"],
+  a1l0: ["## Le tour de la plateforme en vidéo", "!video[Se connecter, suivre les leçons, télécharger les fiches, passer les quiz et obtenir ton attestation (2 min 20).](https://youtu.be/5kbJOgScqrE)"],
+  a6l2: ["## La visite guidée de n8n en vidéo", "!video[L'accueil, le canevas, l'intérieur d'une étape, le menu des applications, le test et la mise en service (3 min).](https://youtu.be/3jE9CKxc0MM)"],
 };
 function addDemos(c, map) {
   for (const m of c.modules) for (const l of m.lessons) {
@@ -122,6 +122,8 @@ function refreshLessons(c, extra) {
     addResources(c, { [nl.id]: nl.resources });
   }
 }
+// Démos hébergées sur YouTube (non répertoriées, sous-titres incrustés) au lieu du site
+const DEMOS_YT = [["(/formation/videos/demos/demo-a6l4.mp4)", "(https://youtu.be/vp5AS471GWQ)"], ["(/formation/videos/demos/demo-import.mp4)", "(https://youtu.be/-rwSFxllaLA)"], ["(/formation/videos/demos/demo-a6l5.mp4)", "(https://youtu.be/_VW0mdjoYW4)"], ["(/formation/videos/demos/demo-a7l4.mp4)", "(https://youtu.be/pkcK1FJXBlE)"], ["(/formation/videos/demos/demo-a7l5.mp4)", "(https://youtu.be/3bTHOVRZVio)"], ["(/formation/videos/demos/demo-plateforme.mp4)", "(https://youtu.be/5kbJOgScqrE)"], ["(/formation/videos/demos/demo-tour-n8n.mp4)", "(https://youtu.be/3jE9CKxc0MM)"]];
 const PATCHES = [
   [1, c => { replaceModule(c, MODULE_1); c.intro = DEFAULT_COURSE.intro; }],
   [2, c => setVideos(c, Object.fromEntries(MODULE_1.lessons.map(l => [l.id, l.video])))],
@@ -137,6 +139,7 @@ const PATCHES = [
   [12, c => swapVideos(c, { a9l4: ["https://youtu.be/2wxMj7djo3g", "https://youtu.be/v6ydN0bNA7Q"] })],
   [13, c => { insertLessons(c, EXTRA_LESSONS); replaceText(c, VIBE); }],
   [14, c => { insertLessons(c, EXTRA_LESSONS); refreshLessons(c, EXTRA_LESSONS); addResources(c, NEW_RES); if (!JSON.stringify(c).includes("## Valider tes acquis")) replaceText(c, WELCOME_QUIZ); addDemos(c, DEMOS); }],
+  [15, c => { setVideos(c, Object.fromEntries(EXTRA_LESSONS.flatMap(x => x.lessons.map(l => [l.id, l.video])).filter(x => x[1]))); replaceText(c, DEMOS_YT); }],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));

@@ -9,6 +9,18 @@
     "title": "Automatisation, IA, agents : ce qui fait vraiment gagner du temps"
    },
    {
+    "title": "Qu'est-ce que l'IA, vraiment ? De Turing à ChatGPT"
+   },
+   {
+    "title": "Comment fonctionne un modèle de langage (expliqué sans maths)"
+   },
+   {
+    "title": "Ce que l'IA fait très bien… et ses vraies limites"
+   },
+   {
+    "title": "Le vocabulaire de l'IA en 20 mots"
+   },
+   {
     "title": "Automatiser en toute sécurité : RGPD, AI Act et bons réflexes"
    },
    {
@@ -51,6 +63,21 @@
     "title": "Bien choisir son assistant IA"
    },
    {
+    "title": "Panorama détaillé des assistants IA (ChatGPT, Claude, Gemini, Mistral, Copilot, Perplexity)"
+   },
+   {
+    "title": "Les IA de recherche, de documentation et de réunion"
+   },
+   {
+    "title": "Les IA de création d'images et de design"
+   },
+   {
+    "title": "Les IA de vidéo, de voix et de musique"
+   },
+   {
+    "title": "Les IA déjà intégrées à tes outils, et ta boîte à outils idéale"
+   },
+   {
     "title": "La méthode pour écrire des prompts efficaces"
    },
    {
@@ -82,7 +109,16 @@
     "title": "Ta première automatisation"
    },
    {
+    "title": "Atelier en images · Ta première automatisation, clic par clic"
+   },
+   {
     "title": "Automatisations avancées"
+   },
+   {
+    "title": "Atelier en images · Conditions, planification et e-mails automatiques"
+   },
+   {
+    "title": "Atelier en images · La même automatisation dans Make"
    }
   ]
  },
@@ -91,6 +127,12 @@
   "lessons": [
    {
     "title": "Ajouter l'IA dans une automatisation"
+   },
+   {
+    "title": "Atelier en images · Une IA qui rédige tes réponses aux demandes de devis"
+   },
+   {
+    "title": "Atelier en images · Ton premier agent IA : un assistant qui réserve tes créneaux"
    },
    {
     "title": "E-mails, agenda et CRM"

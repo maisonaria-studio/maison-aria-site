@@ -10,6 +10,23 @@ PLAN = [  # (module, insérer après, leçons)
   ("a7", "a7l1", ["a7l4"]),
   ("a7", "a7l4", ["a7l5"]),
 ]
+# Vidéos YouTube (non répertoriées) des nouvelles leçons, avec la voix off de Leïssa
+VIDEOS = {
+ "a1l4": "https://youtu.be/AvK_51UyDAo",
+ "a1l5": "https://youtu.be/NaZvh28X9zs",
+ "a1l6": "https://youtu.be/d3TcxxNCGe8",
+ "a1l7": "https://youtu.be/48ja4bRXXEQ",
+ "a4l4": "https://youtu.be/A_xifj3XOHY",
+ "a4l5": "https://youtu.be/PvpIYwFxSJI",
+ "a4l6": "https://youtu.be/nQeZk8ZakQQ",
+ "a4l7": "https://youtu.be/OVJ8mDDs2I8",
+ "a4l8": "https://youtu.be/9BiS_miJaac",
+ "a6l4": "https://youtu.be/zgjyiLZPBAQ",
+ "a6l5": "https://youtu.be/QAbmmc_t6cA",
+ "a6l6": "https://youtu.be/M3HiDXrfK8M",
+ "a7l4": "https://youtu.be/Zl7idML0NB8",
+ "a7l5": "https://youtu.be/Z8YvahtBpY0"
+}
 RES = {
  "a6l4": [
   {
@@ -119,7 +136,7 @@ for mod, after, ids in PLAN:
     t = (R / "src/academy" / f"{i}.md").read_text()
     m = re.match(r"---\ntitle:\s*(.+?)\n---\n", t)
     title = m.group(1).strip().strip('"')
-    ls.append({"id": i, "title": title, "video": "", "body": t[m.end():].strip() + "\n", "resources": RES.get(i, []), "published": True})
+    ls.append({"id": i, "title": title, "video": VIDEOS.get(i, ""), "body": t[m.end():].strip() + "\n", "resources": RES.get(i, []), "published": True})
   out.append({"module": mod, "after": after, "lessons": ls})
 js = "// Généré par scripts-academy-ext.py depuis src/academy/*.md : ne pas modifier à la main.\n"
 js += "export const EXTRA_LESSONS = " + json.dumps(out, ensure_ascii=False, indent=1) + ";\n"
