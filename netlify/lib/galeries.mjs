@@ -143,6 +143,7 @@ const PATCHES = [
   [14, c => { insertLessons(c, EXTRA_LESSONS); refreshLessons(c, EXTRA_LESSONS); addResources(c, NEW_RES); if (!JSON.stringify(c).includes("## Valider tes acquis")) replaceText(c, WELCOME_QUIZ); addDemos(c, DEMOS); }],
   [15, c => { setVideos(c, Object.fromEntries(EXTRA_LESSONS.flatMap(x => x.lessons.map(l => [l.id, l.video])).filter(x => x[1]))); replaceText(c, DEMOS_YT); }],
   [16, c => replaceText(c, DEMOS_HD)],
+  [17, c => replaceText(c, [["[CNIL · le RGPD pour les TPE/PME](https://www.cnil.fr/fr/professionnels)", "[CNIL · le RGPD pour les TPE et PME](https://www.cnil.fr/fr/tpe-et-pme)"]])],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
