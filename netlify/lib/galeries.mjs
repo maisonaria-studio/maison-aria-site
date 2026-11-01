@@ -144,6 +144,7 @@ const PATCHES = [
   [15, c => { setVideos(c, Object.fromEntries(EXTRA_LESSONS.flatMap(x => x.lessons.map(l => [l.id, l.video])).filter(x => x[1]))); replaceText(c, DEMOS_YT); }],
   [16, c => replaceText(c, DEMOS_HD)],
   [17, c => replaceText(c, [["[CNIL · le RGPD pour les TPE/PME](https://www.cnil.fr/fr/professionnels)", "[CNIL · le RGPD pour les TPE et PME](https://www.cnil.fr/fr/tpe-et-pme)"]])],
+  [18, c => swapVideos(c, {"a1l4": ["https://youtu.be/AvK_51UyDAo", "https://youtu.be/Cg2tRydrT1E"], "a1l5": ["https://youtu.be/NaZvh28X9zs", "https://youtu.be/6B1GHNA3YLI"], "a1l6": ["https://youtu.be/d3TcxxNCGe8", "https://youtu.be/mpYZnbxAx24"], "a1l7": ["https://youtu.be/48ja4bRXXEQ", "https://youtu.be/GLVWocsgciM"], "a4l4": ["https://youtu.be/A_xifj3XOHY", "https://youtu.be/Ut7jhhe8m4Y"], "a4l5": ["https://youtu.be/PvpIYwFxSJI", "https://youtu.be/S0GGKBi8sh0"], "a4l6": ["https://youtu.be/nQeZk8ZakQQ", "https://youtu.be/HSENLZixQYQ"], "a4l7": ["https://youtu.be/OVJ8mDDs2I8", "https://youtu.be/Ebfuux0fzCw"], "a4l8": ["https://youtu.be/9BiS_miJaac", "https://youtu.be/CkRTh4FjaJU"], "a6l4": ["https://youtu.be/zgjyiLZPBAQ", "https://youtu.be/3wVWHE60H9Q"], "a6l5": ["https://youtu.be/QAbmmc_t6cA", "https://youtu.be/5du0IVU57_Q"], "a6l6": ["https://youtu.be/M3HiDXrfK8M", "https://youtu.be/ozPU4RNoxEg"], "a7l4": ["https://youtu.be/Zl7idML0NB8", "https://youtu.be/itocGOP_or0"], "a7l5": ["https://youtu.be/Z8YvahtBpY0", "https://youtu.be/ni-TbUKRv00"]})],
 ];
 function applyPatches(c) {
   const todo = PATCHES.filter(([v]) => v > (c.contentPatch || 0));
