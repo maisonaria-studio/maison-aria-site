@@ -58,8 +58,9 @@ s = s.replace('href="/prestations/${s.slug}/"', 'href="${s.slug === "formation-i
 # 4. Navigation
 s = s.replace('<a href="#galeries">Galeries</a>\n      <a class="cta" href="#contact">Devis</a>',
               '<a href="#galeries">Galeries</a>\n      <a class="hide-m" href="/aria-academy/">Aria Academy</a>\n      <a class="cta" href="#contact">Devis</a>')
-s = s.replace('<a href="/formation/">Espace formation</a>\n    <a class="mcta"',
-              '<a href="/aria-academy/">Aria Academy · formation IA</a>\n    <a href="/guides/">Guides</a>\n    <a href="/formation/">Espace formation</a>\n    <a class="mcta"')
+if '<a href="/guides/">Guides</a>\n    <a href="/formation/">Espace formation</a>' not in s:
+    s = s.replace('<a href="/formation/">Espace formation</a>\n    <a class="mcta"',
+                  '<a href="/aria-academy/">Aria Academy · formation IA</a>\n    <a href="/guides/">Guides</a>\n    <a href="/formation/">Espace formation</a>\n    <a class="mcta"')
 
 # 5. Bloc local + plan du site
 if 'id="studio-local"' not in s:
