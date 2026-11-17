@@ -21,6 +21,14 @@ from content_prestations_3 import P5, P6, P7, P8, P9
 from content_expertises import EXPERTISES
 from content_zones import ZONES
 from content_guides import GUIDES
+from content_guides_2 import GUIDES2
+for _s, _c, _r in [("prix-shooting-photo-professionnel", "com", ["prix-video-professionnelle-entreprise", "optimiser-fiche-google-business-profile", "prix-logo-identite-visuelle"]),
+                   ("tarif-community-manager", "com", ["idees-reels-restaurant-commerce", "prix-video-professionnelle-entreprise", "optimiser-fiche-google-business-profile"]),
+                   ("idees-reels-restaurant-commerce", "com", ["prix-video-professionnelle-entreprise", "chatgpt-entreprise-usages-concrets", "tarif-community-manager"]),
+                   ("automatiser-son-entreprise-avec-l-ia", "ia", ["zapier-make-n8n-comparatif", "chatgpt-entreprise-usages-concrets", "ai-act-formation-ia-obligatoire"])]:
+    if _s in GUIDES: GUIDES[_s].setdefault("cat", _c); GUIDES[_s].setdefault("related", _r)
+GUIDES = {**GUIDES, **GUIDES2}
+GUIDE_CATS = [("ia", "Intelligence artificielle & automatisation"), ("com", "Communication, photo & vidéo")]
 
 SITE = "https://maisonaria-studio.com"
 TODAY = datetime.date.today().isoformat()
@@ -67,8 +75,7 @@ ORG = {"@type": "ProfessionalService", "@id": SITE + "/#entreprise", "name": "Ma
 # ---------- Gabarit commun ----------
 CSS = (PUB / "prestations/flyer/index.html").read_text(encoding="utf-8")
 CSS = re.search(r"<style>([\s\S]*?)</style>", CSS).group(1)
-if "/*seo-v2*/" not in CSS:
-    CSS = CSS.split("footer{")[0]
+CSS = CSS.split("/*seo-v2*/")[0] if "/*seo-v2*/" in CSS else CSS.split("footer{")[0]   # idempotent : on ne rajoute jamais le bloc deux fois
 CSS += """/*seo-v2*/
 header nav a.on{text-decoration:underline;text-underline-offset:6px}
 .ctas{display:flex;flex-wrap:wrap;gap:10px}.ctas .btn{margin-top:28px}.ctas .btn.alt{margin-left:0}
@@ -115,7 +122,9 @@ def header(on=""):
 def footer():
     exp = "".join(f'<li><a href="/expertises/{c["slug"]}/">{e(c["label"])}</a></li>' for c in CATS)
     zon = "".join(f'<li><a href="/zones/{s}/">{e(z["ville"])}</a></li>' for s, z in ZONES.items())
-    gui = "".join(f'<li><a href="/guides/{s}/">{e(g["h1"])}</a></li>' for s, g in list(GUIDES.items())[:4])
+    FOOT_GUIDES = ["chatgpt-entreprise-usages-concrets", "automatiser-son-entreprise-avec-l-ia", "ai-act-formation-ia-obligatoire",
+                   "prix-video-professionnelle-entreprise", "optimiser-fiche-google-business-profile", "prix-shooting-photo-professionnel"]
+    gui = "".join(f'<li><a href="/guides/{s}/">{e(GUIDES[s]["h1"])}</a></li>' for s in FOOT_GUIDES if s in GUIDES) + '<li><a href="/guides/">Tous les guides</a></li>'
     return f"""<footer><div class="wrap"><div class="cols">
 <div><h2>Expertises</h2><ul>{exp}</ul></div>
 <div><h2>Zones d'intervention</h2><ul>{zon}<li><a href="/zones/">Toutes les zones</a></li></ul></div>
@@ -192,11 +201,13 @@ for slug, it in ITEMS.items():
 
 # ---------- Expertises ----------
 GUIDE_LINKS = {
-    "strategie-reseaux-sociaux": ["tarif-community-manager", "idees-reels-restaurant-commerce"],
-    "video-montage": ["idees-reels-restaurant-commerce"],
-    "photographie-creation-de-contenu": ["prix-shooting-photo-professionnel"],
-    "intelligence-artificielle-automatisation": ["automatiser-son-entreprise-avec-l-ia"],
-    "formations-ia": ["automatiser-son-entreprise-avec-l-ia"],
+    "strategie-reseaux-sociaux": ["tarif-community-manager", "idees-reels-restaurant-commerce", "optimiser-fiche-google-business-profile"],
+    "video-montage": ["prix-video-professionnelle-entreprise", "idees-reels-restaurant-commerce"],
+    "captation-videaste": ["prix-video-professionnelle-entreprise"],
+    "photographie-creation-de-contenu": ["prix-shooting-photo-professionnel", "optimiser-fiche-google-business-profile"],
+    "identite-visuelle-graphisme": ["prix-logo-identite-visuelle"],
+    "intelligence-artificielle-automatisation": ["automatiser-son-entreprise-avec-l-ia", "zapier-make-n8n-comparatif", "chatgpt-entreprise-usages-concrets", "ia-rgpd-entreprise"],
+    "formations-ia": ["ai-act-formation-ia-obligatoire", "automatiser-son-entreprise-avec-l-ia", "comment-ecrire-un-bon-prompt"],
 }
 for c in CATS:
     d = EXPERTISES[c["slug"]]
@@ -289,9 +300,12 @@ for s, g in GUIDES.items():
     art = {"@context": "https://schema.org", "@type": "Article", "headline": g["h1"], "description": g["meta"], "author": PERSON,
            "publisher": {"@type": "Organization", "name": "Maison Aria Studio", "logo": {"@type": "ImageObject", "url": SITE + "/logo-square.png"}},
            "datePublished": g.get("date", "2026-10-10"), "dateModified": g.get("date", "2026-10-10"), "image": SITE + "/og-image.png", "mainEntityOfPage": SITE + path, "inLanguage": "fr-FR"}
+    rel_cards = "".join(f'<a class="card" href="/guides/{r}/"><b>{e(GUIDES[r]["h1"])}</b><span>{e(short(GUIDES[r]["lead"]))}</span><em>Lire le guide</em></a>' for r in g.get("related", []) if r in GUIDES)
+    rel = f'<section><h2>À lire aussi</h2><div class="cards">{rel_cards}</div></section>' if rel_cards else ""
+    bnd = band("Apprenez à utiliser l’IA dans votre entreprise", "Aria Academy, la formation en ligne pour automatiser sans coder : accessible dès 390 €.", "/aria-academy/", "Découvrir la formation ↗") if g.get("cat") == "ia" else band()
     body = f"""<main class="wrap">{cr}<article class="prose"><p class="eyebrow">Guide</p><h1>{e(g["h1"])}</h1><p class="lead">{e(g["lead"])}</p>
 <p class="meta">Par Leïssa Vedel, fondatrice de Maison Aria · mis à jour le {datetime.date.fromisoformat(g.get("date", "2026-10-10")).strftime("%d/%m/%Y")}</p>
-{g["body"]}</article>{fq}{band()}</main>
+{g["body"]}</article>{fq}{rel}{bnd}</main>
 """
     write(path, head(g["title"] + " | Maison Aria", g["meta"], path, [art, cr_ld, fq_ld], og_type="article") + header("/guides/") + body + footer())
 
@@ -299,9 +313,9 @@ path = "/guides/"
 cr, cr_ld = crumbs([("Accueil", "/"), ("Guides", None)])
 body = f"""<main class="wrap">{cr}<p class="eyebrow">Ressources</p><h1>Guides pratiques : communication, contenu et IA</h1>
 <p class="lead">Des conseils concrets pour les dirigeants de petites entreprises : réseaux sociaux, photo, vidéo, budget et automatisation grâce à l’intelligence artificielle.</p>
-<section><div class="cards">{"".join(f'<a class="card" href="/guides/{s}/"><b>{e(g["h1"])}</b><span>{e(short(g["lead"], 140))}</span><em>Lire le guide</em></a>' for s, g in GUIDES.items())}</div></section>{band()}</main>
+{"".join(f'<section><h2>{e(lab)}</h2><div class="cards">' + "".join(f'<a class="card" href="/guides/{s}/"><b>{e(g["h1"])}</b><span>{e(short(g["lead"], 140))}</span><em>Lire le guide</em></a>' for s, g in GUIDES.items() if g.get("cat") == key) + '</div></section>' for key, lab in GUIDE_CATS)}{band()}</main>
 """
-write(path, head("Guides : réseaux sociaux, photo, vidéo et IA pour TPE | Maison Aria", "Guides pratiques pour les TPE et commerces : prix d'un shooting photo, tarif d'un community manager, idées de Réels, automatiser son entreprise avec l'IA.", path, [cr_ld]) + header("/guides/") + body + footer())
+write(path, head("Guides : réseaux sociaux, photo, vidéo et IA pour TPE | Maison Aria", "Guides pratiques pour TPE, PME et commerces : ChatGPT en entreprise, prompts, Zapier, Make ou n8n, AI Act et RGPD, prix d'une vidéo, d'un logo ou d'un shooting, fiche Google, idées de Réels.", path, [cr_ld]) + header("/guides/") + body + footer())
 
 # ---------- Aria Academy ----------
 from content_academy import ACADEMY
@@ -328,7 +342,7 @@ body = f"""<main class="wrap">{cr}<article><p class="eyebrow">Formation en ligne
 <section><h2>Le programme en {len(MODS)} modules</h2><div class="mods">{mods}</div></section>
 <section class="grid2"><div><h2>Comment se déroule la formation ?</h2><ul class="list">{"".join(f"<li>{e(x)}</li>" for x in A["format"])}</ul></div>
 <div><h2>Qui anime la formation ?</h2><div class="prose"><p>{e(A["formatrice"])}</p></div></div></section>
-<section><h2>Pourquoi apprendre à automatiser ?</h2><div class="prose">{"".join(f"<p>{e(p)}</p>" for p in A["pourquoi"])}<p>Pour un premier aperçu de la méthode, lisez le guide <a href="/guides/automatiser-son-entreprise-avec-l-ia/">Automatiser son entreprise avec l’IA sans coder</a>.</p></div></section>
+<section><h2>Pourquoi apprendre à automatiser ?</h2><div class="prose">{"".join(f"<p>{e(p)}</p>" for p in A["pourquoi"])}<p>Pour un premier aperçu de la méthode, lisez le guide <a href="/guides/automatiser-son-entreprise-avec-l-ia/">Automatiser son entreprise avec l’IA sans coder</a>. Pour aller plus loin : <a href="/guides/chatgpt-entreprise-usages-concrets/">20 usages concrets de ChatGPT en entreprise</a>, <a href="/guides/comment-ecrire-un-bon-prompt/">comment écrire un bon prompt</a>, <a href="/guides/zapier-make-n8n-comparatif/">Zapier, Make ou n8n</a> et <a href="/guides/ai-act-formation-ia-obligatoire/">la formation à l’IA est-elle obligatoire ?</a></p></div></section>
 {fq}
 <section><h2>Préférez-vous être accompagné en présentiel ?</h2><div class="cards">{card(ITEMS["formation-personnalisee"])}{card(ITEMS["audit-ia"])}{card(ITEMS["workflow-ia"])}</div></section>
 {band("Prêt à automatiser votre entreprise ?", "Demandez votre accès à Aria Academy : vous recevez vos identifiants par e-mail.", "/?acces=1#cat-formations-ia", "Demander mon accès ↗")}</main>
